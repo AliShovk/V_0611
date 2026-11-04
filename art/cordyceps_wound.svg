@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="170" viewBox="0 0 200 170">
+  <defs>
+    <radialGradient id="wound" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#120a06"/>
+      <stop offset="0.65" stop-color="#2b160c"/>
+      <stop offset="1" stop-color="#4a2a16" stop-opacity="0.6"/>
+    </radialGradient>
+    <filter id="softw" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="3.4"/></filter>
+  </defs>
+
+  <!-- разрыв хитина -->
+  <ellipse cx="100" cy="104" rx="34" ry="24" fill="url(#wound)"/>
+  <path d="M70 96 C 80 84, 92 88, 98 78 C 106 90, 120 84, 130 96
+           C 124 110, 112 106, 104 118 C 96 108, 80 114, 70 96 Z"
+        fill="#0d0704" opacity="0.9"/>
+  <!-- рваные края -->
+  <path d="M68 100 L 58 92 M72 114 L 62 122 M128 92 L 140 84 M132 112 L 144 120"
+        stroke="#2b160c" stroke-width="3" stroke-linecap="round" opacity="0.85"/>
+
+  <!-- мицелий, расползающийся по панцирю -->
+  <g fill="none" stroke="#e9d3a2" stroke-linecap="round" opacity="0.85">
+    <path d="M96 92 C 84 80, 70 76, 56 80" stroke-width="2.6"/>
+    <path d="M56 80 C 46 84, 40 92, 36 100" stroke-width="1.8"/>
+    <path d="M56 80 C 50 72, 46 64, 44 56" stroke-width="1.8"/>
+    <path d="M104 88 C 118 76, 134 74, 148 80" stroke-width="2.6"/>
+    <path d="M148 80 C 158 84, 166 90, 170 98" stroke-width="1.8"/>
+    <path d="M148 80 C 152 70, 158 64, 164 58" stroke-width="1.8"/>
+    <path d="M100 120 C 92 132, 82 140, 70 146" stroke-width="2.2"/>
+    <path d="M104 122 C 114 134, 126 140, 138 144" stroke-width="2.2"/>
+  </g>
+  <g fill="#f4e4bf" opacity="0.9">
+    <circle cx="36" cy="100" r="2.4"/><circle cx="44" cy="56" r="2.2"/>
+    <circle cx="170" cy="98" r="2.4"/><circle cx="164" cy="58" r="2.2"/>
+    <circle cx="70" cy="146" r="2.2"/><circle cx="138" cy="144" r="2.2"/>
+  </g>
+
+  <!-- тень под будущим стеблем -->
+  <ellipse cx="104" cy="96" rx="16" ry="9" fill="#000" opacity="0.45" filter="url(#softw)"/>
+</svg>

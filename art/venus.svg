@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="600" viewBox="0 0 600 600">
+  <defs>
+    <radialGradient id="planet" cx="0.38" cy="0.32" r="0.78">
+      <stop offset="0" stop-color="#fff2c9"/>
+      <stop offset="0.28" stop-color="#f6d98f"/>
+      <stop offset="0.62" stop-color="#e0b163"/>
+      <stop offset="0.86" stop-color="#b57f42"/>
+      <stop offset="1" stop-color="#4a3118"/>
+    </radialGradient>
+    <radialGradient id="limb" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.72" stop-color="#ffdf9b" stop-opacity="0"/>
+      <stop offset="0.92" stop-color="#ffe6ac" stop-opacity="0.30"/>
+      <stop offset="1" stop-color="#fff3cd" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="disc">
+      <circle cx="300" cy="300" r="250"/>
+    </clipPath>
+    <filter id="soft" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+    <filter id="soft2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3"/></filter>
+  </defs>
+
+  <!-- внешнее свечение -->
+  <circle cx="300" cy="300" r="288" fill="url(#limb)"/>
+
+  <circle cx="300" cy="300" r="250" fill="url(#planet)"/>
+
+  <g clip-path="url(#disc)">
+    <!-- облачные полосы: светлые и тёмные, с изгибом -->
+    <g filter="url(#soft2)" opacity="0.55">
+      <path d="M20 170 C 120 208, 260 190, 380 214 C 480 234, 560 224, 620 240 L620 262 C 540 250, 470 258, 380 238 C 260 212, 130 228, 20 196 Z"
+            fill="#fff0c4"/>
+      <path d="M10 262 C 140 296, 300 276, 420 300 C 520 320, 580 312, 620 326 L620 342 C 560 332, 500 344, 420 326 C 300 302, 150 320, 10 288 Z"
+            fill="#c99353"/>
+      <path d="M30 352 C 150 384, 290 366, 410 392 C 510 414, 570 404, 620 418 L620 438 C 560 424, 500 436, 410 414 C 290 388, 150 406, 30 376 Z"
+            fill="#fff2ce"/>
+      <path d="M20 452 C 140 486, 300 466, 420 492 C 520 512, 580 502, 620 516 L620 534 C 570 522, 510 532, 420 512 C 300 486, 150 504, 20 472 Z"
+            fill="#b8823f"/>
+    </g>
+    <!-- вихри -->
+    <g fill="none" stroke="#fff6d8" stroke-width="7" opacity="0.30" stroke-linecap="round">
+      <path d="M60 236 C 160 258, 280 246, 372 268 C 440 284, 500 280, 548 292"/>
+      <path d="M40 410 C 140 430, 250 412, 350 434 C 430 452, 500 446, 560 458"/>
+    </g>
+    <g fill="none" stroke="#8f5c2a" stroke-width="9" opacity="0.18" stroke-linecap="round">
+      <path d="M80 316 C 190 336, 300 320, 400 342 C 470 358, 530 352, 580 364"/>
+      <path d="M70 500 C 180 520, 300 502, 396 524"/>
+    </g>
+    <!-- полярные вихри -->
+    <ellipse cx="300" cy="96" rx="150" ry="46" fill="#f0cf92" opacity="0.35" filter="url(#soft)"/>
+    <ellipse cx="300" cy="510" rx="160" ry="48" fill="#c2904f" opacity="0.30" filter="url(#soft)"/>
+    <!-- тень терминатора -->
+    <path d="M300 50 C 430 90, 520 190, 520 300 C 520 410, 430 510, 300 550 C 250 550, 250 50, 300 50 Z"
+          fill="#2a1a0c" opacity="0.18"/>
+  </g>
+
+  <!-- блик -->
+  <ellipse cx="196" cy="176" rx="86" ry="56" fill="#fff8e6" opacity="0.22" transform="rotate(-28 196 176)" filter="url(#soft)"/>
+  <circle cx="300" cy="300" r="250" fill="none" stroke="#ffe9b8" stroke-width="2" opacity="0.35"/>
+</svg>

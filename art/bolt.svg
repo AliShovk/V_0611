@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="780" viewBox="0 0 280 780">
+  <defs>
+    <filter id="glowA" x="-60%" y="-30%" width="220%" height="160%"><feGaussianBlur stdDeviation="18"/></filter>
+    <filter id="glowB" x="-60%" y="-30%" width="220%" height="160%"><feGaussianBlur stdDeviation="7"/></filter>
+    <filter id="glowC" x="-60%" y="-30%" width="220%" height="160%"><feGaussianBlur stdDeviation="2.5"/></filter>
+    <linearGradient id="core" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#eaf6ff"/>
+      <stop offset="1" stop-color="#c9e8ff"/>
+    </linearGradient>
+  </defs>
+
+  <!-- ореол -->
+  <g filter="url(#glowA)" opacity="0.55">
+    <path d="M146 6 C 132 62, 108 96, 116 150 C 124 204, 158 226, 150 280
+             C 142 334, 108 356, 118 410 C 128 464, 160 486, 152 540
+             C 144 594, 116 620, 124 668 C 130 704, 142 730, 140 774"
+          fill="none" stroke="#8fd8ff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M116 150 C 92 178, 74 196, 58 236" fill="none" stroke="#8fd8ff" stroke-width="16" stroke-linecap="round"/>
+    <path d="M152 540 C 176 566, 196 580, 214 612" fill="none" stroke="#8fd8ff" stroke-width="14" stroke-linecap="round"/>
+  </g>
+
+  <!-- среднее свечение -->
+  <g filter="url(#glowB)" opacity="0.9">
+    <path d="M146 6 C 132 62, 108 96, 116 150 C 124 204, 158 226, 150 280
+             C 142 334, 108 356, 118 410 C 128 464, 160 486, 152 540
+             C 144 594, 116 620, 124 668 C 130 704, 142 730, 140 774"
+          fill="none" stroke="#cfeeff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M116 150 C 92 178, 74 196, 58 236" fill="none" stroke="#cfeeff" stroke-width="8" stroke-linecap="round"/>
+    <path d="M152 540 C 176 566, 196 580, 214 612" fill="none" stroke="#cfeeff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M118 410 C 96 438, 82 456, 66 492" fill="none" stroke="#cfeeff" stroke-width="6" stroke-linecap="round"/>
+  </g>
+
+  <!-- ядро -->
+  <g filter="url(#glowC)">
+    <path d="M146 6 C 132 62, 108 96, 116 150 C 124 204, 158 226, 150 280
+             C 142 334, 108 356, 118 410 C 128 464, 160 486, 152 540
+             C 144 594, 116 620, 124 668 C 130 704, 142 730, 140 774"
+          fill="none" stroke="url(#core)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M116 150 C 92 178, 74 196, 58 236" fill="none" stroke="url(#core)" stroke-width="4.5" stroke-linecap="round"/>
+    <path d="M152 540 C 176 566, 196 580, 214 612" fill="none" stroke="url(#core)" stroke-width="4" stroke-linecap="round"/>
+    <path d="M118 410 C 96 438, 82 456, 66 492" fill="none" stroke="url(#core)" stroke-width="3.5" stroke-linecap="round"/>
+  </g>
+  <path d="M146 6 C 132 62, 108 96, 116 150 C 124 204, 158 226, 150 280
+           C 142 334, 108 356, 118 410 C 128 464, 160 486, 152 540
+           C 144 594, 116 620, 124 668 C 130 704, 142 730, 140 774"
+        fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

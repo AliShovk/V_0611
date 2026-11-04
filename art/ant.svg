@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="380" height="270" viewBox="0 0 380 270">
+  <defs>
+    <linearGradient id="gaster" x1="0.1" y1="0" x2="0.7" y2="1">
+      <stop offset="0" stop-color="#7d4a26"/>
+      <stop offset="0.35" stop-color="#5a3118"/>
+      <stop offset="1" stop-color="#26130b"/>
+    </linearGradient>
+    <linearGradient id="thorax" x1="0" y1="0" x2="0.5" y2="1">
+      <stop offset="0" stop-color="#8a5530"/>
+      <stop offset="0.4" stop-color="#5e3319"/>
+      <stop offset="1" stop-color="#2b160c"/>
+    </linearGradient>
+    <linearGradient id="headg" x1="0" y1="0" x2="0.6" y2="1">
+      <stop offset="0" stop-color="#8f5a33"/>
+      <stop offset="1" stop-color="#331910"/>
+    </linearGradient>
+    <radialGradient id="gloss" cx="0.3" cy="0.25" r="0.65">
+      <stop offset="0" stop-color="#e8c39a" stop-opacity="0.5"/>
+      <stop offset="1" stop-color="#e8c39a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="bl2" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2.2"/></filter>
+  </defs>
+
+  <!-- контактная тень -->
+  <ellipse cx="190" cy="240" rx="120" ry="12" fill="#000" opacity="0.32" filter="url(#bl2)"/>
+
+  <!-- брюшко -->
+  <g>
+    <path d="M104 118 C 74 96, 40 100, 26 124 C 10 152, 30 182, 68 188
+             C 104 194, 128 172, 130 144 C 131 130, 120 124, 104 118 Z"
+          fill="url(#gaster)" stroke="#1a0d07" stroke-width="2.4"/>
+    <!-- сегменты -->
+    <g stroke="#1a0d07" stroke-width="2.2" opacity="0.6" fill="none">
+      <path d="M58 104 C 48 128, 50 164, 64 184"/>
+      <path d="M82 100 C 72 126, 74 166, 88 188"/>
+      <path d="M104 106 C 96 130, 98 164, 110 182"/>
+    </g>
+    <ellipse cx="58" cy="128" rx="34" ry="17" fill="url(#gloss)" transform="rotate(-14 58 128)"/>
+    <!-- волоски -->
+    <g stroke="#c79a६b" stroke-width="1.6" opacity="0.55" stroke-linecap="round">
+      <path d="M34 116 L20 108"/><path d="M30 132 L14 128"/><path d="M34 150 L18 150"/>
+      <path d="M44 166 L30 174"/><path d="M64 176 L56 190"/><path d="M92 180 L90 196"/>
+    </g>
+    <!-- блик по верхнему краю -->
+    <path d="M40 108 C 66 98, 96 104, 112 118" fill="none" stroke="#f0c9a0" stroke-width="2.6"
+          opacity="0.55" stroke-linecap="round"/>
+  </g>
+
+  <!-- стебелёк: два узелка -->
+  <ellipse cx="138" cy="128" rx="8" ry="9" fill="#3d2011" stroke="#1a0d07" stroke-width="1.8"/>
+  <ellipse cx="152" cy="124" rx="7" ry="8" fill="#452512" stroke="#1a0d07" stroke-width="1.8"/>
+
+  <!-- грудь -->
+  <g>
+    <path d="M156 130 C 158 106, 176 92, 198 94 C 220 96, 232 114, 230 132
+             C 228 152, 208 164, 188 160 C 168 156, 157 146, 156 130 Z"
+          fill="url(#thorax)" stroke="#1a0d07" stroke-width="2.4"/>
+    <!-- шов между передне- и среднегрудью -->
+    <path d="M176 96 C 184 112, 184 138, 176 158" fill="none" stroke="#1a0d07"
+          stroke-width="2" opacity="0.55"/>
+    <ellipse cx="186" cy="108" rx="20" ry="10" fill="url(#gloss)" transform="rotate(-24 186 108)"/>
+    <path d="M164 104 C 180 94, 208 94, 224 108" fill="none" stroke="#f0c9a0"
+          stroke-width="2.4" opacity="0.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- голова -->
+  <g>
+    <path d="M228 124 C 234 104, 254 94, 272 100 C 292 106, 300 126, 292 142
+             C 284 158, 262 166, 246 158 C 232 151, 226 138, 228 124 Z"
+          fill="url(#headg)" stroke="#1a0d07" stroke-width="2.4"/>
+    <!-- фасеточный глаз -->
+    <ellipse cx="278" cy="118" rx="11" ry="8.5" fill="#0d0704"/>
+    <ellipse cx="276" cy="116" rx="4" ry="3" fill="#d9b892" opacity="0.75"/>
+    <path d="M270 130 C 278 134, 286 132, 290 126" fill="none" stroke="#0d0704" stroke-width="1.4" opacity="0.5"/>
+    <!-- мандибулы -->
+    <path d="M288 142 C 306 146, 320 156, 322 168 C 308 164, 296 158, 286 150 Z"
+          fill="#2b160c" stroke="#120a05" stroke-width="1.6"/>
+    <path d="M284 152 C 298 160, 306 170, 306 180 C 294 174, 284 166, 278 158 Z"
+          fill="#2b160c" stroke="#120a05" stroke-width="1.6"/>
+    <!-- усики с коленом -->
+    <path d="M268 100 C 274 82, 288 70, 306 66" fill="none" stroke="#241209"
+          stroke-width="4.4" stroke-linecap="round"/>
+    <circle cx="306" cy="66" r="3.4" fill="#3d2011"/>
+    <path d="M306 66 C 322 64, 334 70, 340 80" fill="none" stroke="#241209"
+          stroke-width="3.4" stroke-linecap="round"/>
+    <path d="M262 98 C 264 78, 274 60, 290 50" fill="none" stroke="#241209"
+          stroke-width="3.6" stroke-linecap="round" opacity="0.9"/>
+  </g>
+
+  <!-- лапки: 3 пары, с коленями и лапками -->
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- передняя пара -->
+    <path d="M214 150 L 226 176" stroke="#3a1f10" stroke-width="7"/>
+    <path d="M226 176 L 248 196" stroke="#2b160c" stroke-width="5.6"/>
+    <path d="M248 196 L 268 200" stroke="#1f1009" stroke-width="3.2"/>
+    <circle cx="226" cy="176" r="3.6" fill="#3a1f10" stroke="none"/>
+    <!-- средняя пара -->
+    <path d="M196 158 L 190 188" stroke="#3a1f10" stroke-width="7.4"/>
+    <path d="M190 188 L 168 212" stroke="#2b160c" stroke-width="5.6"/>
+    <path d="M168 212 L 148 216" stroke="#1f1009" stroke-width="3.2"/>
+    <circle cx="190" cy="188" r="3.8" fill="#3a1f10" stroke="none"/>
+    <!-- задняя пара -->
+    <path d="M168 156 L 146 182" stroke="#3a1f10" stroke-width="7.4"/>
+    <path d="M146 182 L 112 198" stroke="#2b160c" stroke-width="5.6"/>
+    <path d="M112 198 L 90 196" stroke="#1f1009" stroke-width="3.2"/>
+    <circle cx="146" cy="182" r="3.8" fill="#3a1f10" stroke="none"/>
+    <!-- вторая сторона (темнее, чуть выше) -->
+    <path d="M212 144 L 224 164" stroke="#241309" stroke-width="6"/>
+    <path d="M224 164 L 244 178" stroke="#1b0e07" stroke-width="4.6"/>
+    <path d="M192 150 L 186 172" stroke="#241309" stroke-width="6"/>
+    <path d="M186 172 L 166 190" stroke="#1b0e07" stroke-width="4.6"/>
+    <path d="M166 148 L 144 166" stroke="#241309" stroke-width="6"/>
+    <path d="M144 166 L 116 178" stroke="#1b0e07" stroke-width="4.6"/>
+  </g>
+  <!-- светлые блики на лапках -->
+  <g fill="none" stroke="#c99a6a" stroke-width="1.6" opacity="0.45" stroke-linecap="round">
+    <path d="M216 152 L 227 174"/>
+    <path d="M198 160 L 191 186"/>
+    <path d="M170 158 L 148 181"/>
+  </g>
+</svg>
