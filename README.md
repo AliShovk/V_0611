@@ -102,6 +102,41 @@ python scripts/cartoon_venus_hook.py
 Скорость: 799 кадров 1440x2560 ≈ 9 минут, потому что SDF считается только в
 bounding box подушки (~470x330 px), а не по всему кадру.
 
+
+## Генератор инженерных объяснялок (vgen)
+
+Восемь стадий из ТЗ, каждая пишет свои артефакты в `out/<эпизод>/`:
+
+```bash
+python -m vgen.pipeline episodes/lock_panama/project.json
+```
+
+| Стадия | Модуль | Артефакт |
+|---|---|---|
+| 1. Research | `vgen/stages.py::write_research` | `research.md` |
+| 2. Engineering | `write_engineering` | `engineering.md` |
+| 3. Script | `write_script` | `script.md` |
+| 4. Fact check (гейт) | `stages.check` | `factcheck.json` |
+| 5. Voice | `vgen/voice.py` | `voice.wav`, `subtitles.srt`, `words.json` |
+| 6. Storyboard | `vgen/storyboard.py` | `storyboard.json` |
+| 7. Animation | `vgen/animation.py` + `vgen/renderers/*` | `assets/frames/`, `assets/video_silent.mp4` |
+| 8. Edit | `vgen/sfx.py` | `final.mp4` (1080×1920) |
+
+Плюс `sources.md` — ссылки с датой проверки.
+
+**Гейт фактов.** `stages.check` вытаскивает из сценария все числа (цифрами и словами,
+включая составные «двадцать шесть») и сверяет с `facts` в `project.json`. Если число
+не подтверждено — пайплайн останавливается до рендера: `unsupported: [...]`, exit 1.
+
+**Эпизод.** `episodes/lock_panama/project.json` — шлюзы Гатун: 26 м, 3 камеры по 8,7 м,
+гравитационная подача воды, 200 млн литров за проход.
+
+**Сцены.** Рендерер `vgen/renderers/lock.py` рисует шесть сцен (хук → створки → вода →
+три ступени → сравнение с девятиэтажкой → финальная карточка) с кроссфейдами по 0,35 с,
+SFX на событиях и субтитрами из word-разметки.
+
+**Публикации нет.** Пайплайн только собирает артефакты, выкладывать — вручную после проверки.
+
 ## Подводные камни (проверено на своих граблях)
 
 - **Edge TTS периодически отдаёт `NoAudioReceived`.** Поэтому синтез идёт по предложениям с 12 ретраями и кэшем; повторный запуск не ждёт сеть.

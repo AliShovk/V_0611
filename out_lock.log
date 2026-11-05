@@ -1,0 +1,25 @@
+scenes: [('hook', 0.1, 4.2), ('gates', 10.71, 21.34), ('water', 21.34, 29.7), ('steps', 29.7, 38.2), ('compare', 38.2, 44.69), ('final', 44.69, 49.63)]
+frame 0 / 1488
+frame 200 / 1488
+frame 400 / 1488
+frame 600 / 1488
+frame 800 / 1488
+frame 1000 / 1488
+frame 1200 / 1488
+frame 1400 / 1488
+Traceback (most recent call last):
+  File "<stdin>", line 11, in <module>
+  File "C:\Users\Ali PC\Vgen_041126\vgen\animation.py", line 99, in build
+    sfx.mix(silent, voice["wav"], fx, mixed, video_sfx_gain=0.75)
+  File "C:\Users\Ali PC\Vgen_041126\vgen\sfx.py", line 104, in mix
+    subprocess.run([FFMPEG, "-y", "-v", "error",
+  File "C:\Users\Ali PC\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Ali PC\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "C:\Users\Ali PC\AppData\Roaming\uv\python\cpython-3.11-windows-x86_64-none\Lib\subprocess.py", line 1538, in _execute_child
+    hp, ht, pid, tid = _winapi.CreateProcess(executable, args,
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [WinError 2] Не удается найти указанный файл
+EXIT=1

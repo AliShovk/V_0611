@@ -3,3 +3,6 @@ storage/
 __pycache__/
 *.pyc
 frames/
+out/
+__pycache__/
+*.pyc
