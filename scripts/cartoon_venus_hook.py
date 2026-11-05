@@ -19,12 +19,12 @@ import sfx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ART = os.path.join(ROOT, "art")
 OUT = os.path.join(ROOT, "storage", "cartoon-venus-hook")
-F_LABEL = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(30))
-F_TICK = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(23))
-F_BIG = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(54))
-F_HUGE = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(64))
-F_HOOK = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(62))
-F_ANSWER = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(96))
+F_LABEL = ImageFont.truetype(font_path(), S(30))
+F_TICK = ImageFont.truetype(font_path(), S(23))
+F_BIG = ImageFont.truetype(font_path(), S(54))
+F_HUGE = ImageFont.truetype(font_path(), S(64))
+F_HOOK = ImageFont.truetype(font_path(), S(62))
+F_ANSWER = ImageFont.truetype(font_path(), S(96))
 
 TEXT = ("Сутки на этой планете длиннее года. "
         "И Солнце там встаёт на западе. "

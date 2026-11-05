@@ -10,8 +10,18 @@ import numpy as np
 
 SR = 44100
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FFMPEG = os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
-                      "binaries", "ffmpeg-win-x86_64-v7.1.exe")
+FFMPEG = (
+    os.environ.get("FFMPEG")
+    or next((p for p in (
+        os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
+                     "binaries", "ffmpeg-win-x86_64-v7.1.exe"),
+        "/usr/bin/ffmpeg",
+        "/usr/local/bin/ffmpeg",
+    ) if os.path.exists(p)), None)
+)
+if not FFMPEG:
+    import imageio_ffmpeg
+    FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
 
 
 def _env(n, attack=0.01, decay=0.3, power=2.0):

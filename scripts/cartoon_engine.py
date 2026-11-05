@@ -16,9 +16,19 @@ import edge_tts
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-FFMPEG = os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
-                      "binaries", "ffmpeg-win-x86_64-v7.1.exe")
-FONT_BOLD = "C:/Windows/Fonts/msyhbd.ttc"
+FFMPEG = (
+    os.environ.get("FFMPEG")
+    or next((p for p in (
+        os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
+                     "binaries", "ffmpeg-win-x86_64-v7.1.exe"),
+        "/usr/bin/ffmpeg",
+        "/usr/local/bin/ffmpeg",
+    ) if os.path.exists(p)), None)
+)
+if not FFMPEG:
+    import imageio_ffmpeg
+    FFMPEG = imageio_ffmpeg.get_ffmpeg_exe()
+FONT_BOLD = os.environ.get("FONT_BOLD") or "C:/Windows/Fonts/msyhbd.ttc"
 
 
 def font_path():
@@ -40,7 +50,7 @@ def S(v):
 
 
 def font(size):
-    return ImageFont.truetype(FONT_BOLD, S(size))
+    return ImageFont.truetype(font_path(), S(size))
 
 
 F_WORD = font(52)
