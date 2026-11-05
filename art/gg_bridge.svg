@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="700" viewBox="0 0 1400 700">
+  <defs>
+    <linearGradient id="or" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e2603f"/>
+      <stop offset="0.45" stop-color="#c0362c"/>
+      <stop offset="1" stop-color="#7d1f18"/>
+    </linearGradient>
+    <linearGradient id="deck" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5e2a24"/>
+      <stop offset="1" stop-color="#2b1310"/>
+    </linearGradient>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a2233" stop-opacity="0"/>
+      <stop offset="1" stop-color="#0a0f18" stop-opacity="0.55"/>
+    </linearGradient>
+  </defs>
+
+  <!-- лёгкая дымка под мостом -->
+  <rect x="0" y="470" width="1400" height="160" fill="url(#sky)"/>
+
+  <!-- главный трос: парабола между башнями + спуски к анкерам -->
+  <path d="M40 470 Q 120 300 380 92
+           Q 700 470 1020 92
+           Q 1280 300 1360 470"
+        fill="none" stroke="#d9d2c6" stroke-width="11" stroke-linecap="round"/>
+  <path d="M40 470 Q 120 300 380 92
+           Q 700 470 1020 92
+           Q 1280 300 1360 470"
+        fill="none" stroke="#8f8578" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+
+  <!-- подвески -->
+  <g stroke="#cfc7bb" stroke-width="3" opacity="0.85">
+    <path d="M120 372 L120 452"/><path d="M170 316 L170 452"/><path d="M220 268 L220 452"/>
+    <path d="M270 228 L270 452"/><path d="M320 196 L320 452"/><path d="M370 174 L370 452"/>
+    <path d="M430 176 L430 452"/><path d="M480 200 L480 452"/><path d="M530 234 L530 452"/>
+    <path d="M580 276 L580 452"/><path d="M630 326 L630 452"/><path d="M680 382 L680 452"/>
+    <path d="M730 382 L730 452"/><path d="M780 326 L780 452"/><path d="M830 276 L830 452"/>
+    <path d="M880 234 L880 452"/><path d="M930 200 L930 452"/><path d="M980 176 L980 452"/>
+    <path d="M1030 176 L1030 452"/><path d="M1080 200 L1080 452"/><path d="M1130 234 L1130 452"/>
+    <path d="M1180 276 L1180 452"/><path d="M1230 316 L1230 452"/><path d="M1280 372 L1280 452"/>
+  </g>
+
+  <!-- дорожное полотно -->
+  <rect x="30" y="452" width="1340" height="16" fill="#3a3630"/>
+  <rect x="30" y="452" width="1340" height="4" fill="#5c574e"/>
+
+  <!-- ферма -->
+  <rect x="30" y="468" width="1340" height="34" fill="url(#deck)" stroke="#1d0f0c" stroke-width="2"/>
+  <g stroke="#c0362c" stroke-width="4" opacity="0.9">
+    <path d="M40 470 L80 500 L120 470 L160 500 L200 470 L240 500 L280 470 L320 500 L360 470 L400 500 L440 470 L480 500 L520 470 L560 500 L600 470 L640 500 L680 470 L720 500 L760 470 L800 500 L840 470 L880 500 L920 470 L960 500 L1000 470 L1040 500 L1080 470 L1120 500 L1160 470 L1200 500 L1240 470 L1280 500 L1320 470 L1360 500"/>
+  </g>
+  <path d="M30 502 L1370 502" stroke="#1d0f0c" stroke-width="4"/>
+
+  <!-- машины -->
+  <g>
+    <rect x="150" y="440" width="26" height="12" rx="4" fill="#e8e2d6"/>
+    <rect x="196" y="442" width="34" height="10" rx="3" fill="#7dc7e8"/>
+    <rect x="520" y="440" width="28" height="12" rx="4" fill="#e8e2d6"/>
+    <rect x="600" y="442" width="40" height="10" rx="3" fill="#c8c2b6"/>
+    <rect x="880" y="440" width="26" height="12" rx="4" fill="#e8e2d6"/>
+    <rect x="1080" y="442" width="34" height="10" rx="3" fill="#7dc7e8"/>
+  </g>
+
+  <!-- башни -->
+  <g>
+    <!-- левая -->
+    <path d="M352 92 L388 92 L396 470 L344 470 Z" fill="url(#or)" stroke="#4a1410" stroke-width="3"/>
+    <path d="M362 92 L378 92 L382 200 L358 200 Z" fill="#e2603f" opacity="0.55"/>
+    <g stroke="#4a1410" stroke-width="3">
+      <path d="M344 200 L396 200"/><path d="M346 300 L394 300"/><path d="M348 400 L392 400"/>
+      <path d="M346 200 L394 300"/><path d="M394 200 L346 300"/>
+      <path d="M348 300 L392 400"/><path d="M392 300 L348 400"/>
+    </g>
+    <!-- арт-деко: ступенчатые плечи и рёбра -->
+    <rect x="336" y="150" width="76" height="14" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <rect x="342" y="118" width="64" height="12" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <rect x="348" y="100" width="52" height="10" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <g stroke="#7d1f18" stroke-width="2" opacity="0.8">
+      <path d="M360 210 L360 460"/><path d="M370 210 L370 460"/><path d="M380 210 L380 460"/>
+    </g>
+    <!-- правая -->
+    <path d="M1012 92 L1048 92 L1056 470 L1004 470 Z" fill="url(#or)" stroke="#4a1410" stroke-width="3"/>
+    <path d="M1022 92 L1038 92 L1042 200 L1018 200 Z" fill="#e2603f" opacity="0.55"/>
+    <g stroke="#4a1410" stroke-width="3">
+      <path d="M1004 200 L1056 200"/><path d="M1006 300 L1054 300"/><path d="M1008 400 L1052 400"/>
+      <path d="M1006 200 L1054 300"/><path d="M1054 200 L1006 300"/>
+      <path d="M1008 300 L1052 400"/><path d="M1052 300 L1008 400"/>
+    </g>
+    <rect x="996" y="150" width="76" height="14" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <rect x="1002" y="118" width="64" height="12" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <rect x="1008" y="100" width="52" height="10" fill="#a72c22" stroke="#4a1410" stroke-width="2"/>
+    <g stroke="#7d1f18" stroke-width="2" opacity="0.8">
+      <path d="M1020 210 L1020 460"/><path d="M1030 210 L1030 460"/><path d="M1040 210 L1040 460"/>
+    </g>
+    <!-- огни -->
+    <circle cx="370" cy="86" r="6" fill="#ff6a5a"/>
+    <circle cx="1030" cy="86" r="6" fill="#ff6a5a"/>
+  </g>
+
+  <!-- анкеры -->
+  <g fill="#4a4a48" stroke="#20201e" stroke-width="3">
+    <rect x="10" y="452" width="44" height="90"/>
+    <rect x="1346" y="452" width="44" height="90"/>
+  </g>
+</svg>

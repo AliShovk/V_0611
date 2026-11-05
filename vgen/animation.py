@@ -15,6 +15,7 @@ def module(name):
     return importlib.import_module(f"vgen.renderers.{name}")
 
 FPS = 30
+JPEG = os.environ.get("FRAME_JPEG") == "1"
 W, H = 720, 1280
 SS = 2
 
@@ -66,7 +67,7 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     frames_dir = os.path.join(out_dir, "assets", "frames")
     os.makedirs(frames_dir, exist_ok=True)
     for f in os.listdir(frames_dir):
-        if f.endswith(".png"):
+        if f.endswith(".png") or f.endswith(".jpg"):
             os.remove(os.path.join(frames_dir, f))
 
     n = int(total * FPS)
@@ -115,13 +116,16 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
         else:
             img = mod.render(name, t, ctx).convert("RGBA")
 
-        img.convert("RGB").save(os.path.join(frames_dir, f"f{i:05d}.png"))
+        if JPEG:
+            img.convert("RGB").save(os.path.join(frames_dir, f"f{i:05d}.jpg"), quality=95)
+        else:
+            img.convert("RGB").save(os.path.join(frames_dir, f"f{i:05d}.png"))
         if i % 200 == 0:
             print("frame", i, "/", n)
 
     silent = os.path.join(out_dir, "assets", "video_silent.mp4")
     subprocess.run([FFMPEG, "-y", "-v", "error", "-framerate", str(FPS),
-                    "-i", os.path.join(frames_dir, "f%05d.png"),
+                    "-i", os.path.join(frames_dir, "f%05d.jpg" if JPEG else "f%05d.png"),
                     "-c:v", "libx264", "-preset", "medium", "-crf", "19",
                     "-pix_fmt", "yuv420p", "-movflags", "+faststart", silent], check=True)
 

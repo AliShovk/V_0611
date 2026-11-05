@@ -6,3 +6,4 @@ frames/
 out/
 __pycache__/
 *.pyc
+*.log
