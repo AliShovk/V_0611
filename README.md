@@ -128,7 +128,14 @@ python -m vgen.pipeline episodes/lock_panama/project.json
 включая составные «двадцать шесть») и сверяет с `facts` в `project.json`. Если число
 не подтверждено — пайплайн останавливается до рендера: `unsupported: [...]`, exit 1.
 
-**Эпизод.** `episodes/lock_panama/project.json` — шлюзы Гатун: 26 м, 3 камеры по 8,7 м,
+**Эпизоды.**
+- `episodes/lock_panama/project.json` — шлюзы Гатун: 26 м, 3 камеры по 8,7 м, вода самотёком;
+- `episodes/crane_balance/project.json` — башенный кран: баланс моментов, полиспаст, башня на сжатие.
+
+Рендерер выбирается полем `renderer` в project.json (`lock`, `crane`) — модуль подключается
+из `vgen/renderers/`.
+
+**Шлюзы Гатун**: 26 м, 3 камеры по 8,7 м,
 гравитационная подача воды, 200 млн литров за проход.
 
 **Сцены.** Рендерер `vgen/renderers/lock.py` рисует шесть сцен (хук → створки → вода →

@@ -32,9 +32,9 @@ def numbers_in(text):
     low = text.lower()
     found = {norm_num(m.group(0)) for m in NUM.finditer(text)}
     for phrase, val in sorted(PHRASES.items(), key=lambda kv: -len(kv[0])):
-        if re.search(rf"\b{phrase}", low):
+        if re.search(rf"\b{phrase}\b", low):
             found.add(str(val))
-            low = re.sub(rf"\b{phrase}", " ", low)
+            low = re.sub(rf"\b{phrase}\b", " ", low)
     for w, v in UNITS.items():
         if re.search(rf"\b{w}\b", low):
             found.add(str(v))

@@ -1,0 +1,46 @@
+[1/8] research: Как башенный кран поднимает многотонные грузы
+[2/8] engineering
+[3/8] script
+[4/8] fact check (gate)
+  ✓ все числа подтверждены источниками
+[5/8] voice + subtitles
+  38.33 с, 77 слов
+[6/8] storyboard
+[7/8] animation + encode
+frame 0 / 1149
+frame 200 / 1149
+frame 400 / 1149
+frame 600 / 1149
+frame 800 / 1149
+frame 1000 / 1149
+[8/8] готово
+{
+  "ok": true,
+  "out": "out\\crane_balance",
+  "final": "out\\crane_balance\\final.mp4",
+  "duration": 38.33,
+  "scenes": 6,
+  "artifacts": [
+    "assets",
+    "engineering.md",
+    "factcheck.json",
+    "final.mp4",
+    "part00.mp3",
+    "part01.mp3",
+    "part02.mp3",
+    "part03.mp3",
+    "part04.mp3",
+    "part05.mp3",
+    "part06.mp3",
+    "parts.txt",
+    "research.md",
+    "script.md",
+    "sources.md",
+    "storyboard.json",
+    "subtitles.srt",
+    "voice.mp3",
+    "voice.wav",
+    "words.json"
+  ]
+}
+EXIT=0
