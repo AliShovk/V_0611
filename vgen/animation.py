@@ -20,6 +20,8 @@ SS = 2
 
 
 def word_time(marks, needle, default):
+    if not needle:
+        return default
     needle = needle.lower()
     for (start, _, word) in marks:
         if needle in word.lower():
@@ -35,7 +37,7 @@ def ease(k):
 def build(project, voice, storyboard, out_dir, renderer="lock"):
     total = voice["total"]
     marks = voice["marks"]
-    anchors = project["timeline"]
+    anchors = project.get("timeline") or {}
 
     t_pump = word_time(marks, anchors.get("pump", ""), total * 0.45)
     t_eight = word_time(marks, anchors.get("eight", ""), total * 0.65)
@@ -53,7 +55,7 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
         while i < len(toks):
             j = i
             while (j + 1 < len(toks) and (j - i + 1) < 4
-                   and not toks[j].endswith((",", ".", "!", "?", "—"))):
+                   and not toks[j].endswith((",", ".", "!", "?"))):
                 j += 1
             st = marks[min(i, len(marks) - 1)][0] if marks else 0.0
             en = marks[min(j, len(marks) - 1)][1] if marks else st + 1.0
@@ -124,8 +126,12 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
                     "-pix_fmt", "yuv420p", "-movflags", "+faststart", silent], check=True)
 
     # SFX
-    events = [(0.02, "boom", 0.5), (t_gates, "crack", 0.35), (t_pump, "hiss", 0.45),
-              (t_eight, "pop", 0.35), (t_panama, "chime", 0.45), (t_end - 0.4, "whoosh", 0.3)]
+    if anchors:
+        events = [(0.02, "boom", 0.5), (t_gates, "crack", 0.35), (t_pump, "hiss", 0.45),
+                  (t_eight, "pop", 0.35), (t_panama, "chime", 0.45), (t_end - 0.4, "whoosh", 0.3)]
+    else:
+        events = [(0.02, "boom", 0.5), (total * 0.45, "pop", 0.3),
+                  (total * 0.7, "chime", 0.4), (total - 0.6, "whoosh", 0.3)]
     fx = sfx.build_track(total, events, os.path.join(out_dir, "assets", "sfx.wav"))
 
     mixed = os.path.join(out_dir, "assets", "video_mixed.mp4")

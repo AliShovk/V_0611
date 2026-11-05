@@ -35,10 +35,16 @@ UNITS = {"ноль": 0, "двух": 2, "трёх": 3, "трех": 3, "четыр
 def numbers_in(text):
     """Числительные: цифры и составные («восемьсот двадцать восемь» -> 828)."""
     found = {norm_num(m.group(0)) for m in NUM.finditer(text)}
-    words = re.findall(r"[А-Яа-яЁё]+", text.lower())
+    words = re.findall(r"[А-Яа-яЁё]+|[^А-Яа-яЁё]+", text.lower())
     cur = 0
     active = False
     for w in words:
+        if not w[0].isalpha():
+            # дефис и запятая разрывают числительное: «шести-восьми» — это 6 и 8
+            if ("-" in w or "–" in w or "," in w) and active:
+                found.add(str(cur))
+                cur, active = 0, False
+            continue
         val = None
         if w in HUNDREDS:
             val = HUNDREDS[w]
