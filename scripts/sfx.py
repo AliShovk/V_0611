@@ -10,7 +10,8 @@ import numpy as np
 
 SR = 44100
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-from cartoon_engine import FFMPEG
+FFMPEG = os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
+                      "binaries", "ffmpeg-win-x86_64-v7.1.exe")
 
 
 def _env(n, attack=0.01, decay=0.3, power=2.0):
@@ -55,6 +56,12 @@ def gen(kind, dur):
     if kind == "tick":
         return np.sin(2 * np.pi * 1500 * t) * _env(n, 0.002, dur, 3.0) * 0.35
 
+    if kind == "hiss":
+        noise = rnd.normal(0, 1, n)
+        noise = np.convolve(noise, np.hanning(7) / np.hanning(7).sum(), mode="same")
+        env = np.exp(-t * 2.2) * np.minimum(1.0, t * 22)
+        return (noise * 0.7 + np.sin(2 * np.pi * 3200 * t) * 0.05) * env * 0.5
+
     if kind == "crack":
         noise = rnd.normal(0, 1, n)
         noise = np.convolve(noise, np.hanning(5) / np.hanning(5).sum(), mode="same")
@@ -65,7 +72,7 @@ def gen(kind, dur):
 
 
 DUR = {"boom": 0.9, "whoosh": 0.45, "pop": 0.18, "riser": 0.8,
-       "chime": 1.1, "tick": 0.07, "crack": 1.2}
+       "chime": 1.1, "tick": 0.07, "crack": 1.2, "hiss": 1.0}
 
 
 def build_track(total, events, path):
