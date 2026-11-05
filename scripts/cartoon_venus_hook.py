@@ -19,12 +19,12 @@ import sfx
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ART = os.path.join(ROOT, "art")
 OUT = os.path.join(ROOT, "storage", "cartoon-venus-hook")
-F_LABEL = ImageFont.truetype(font_path(), S(30))
-F_TICK = ImageFont.truetype(font_path(), S(23))
-F_BIG = ImageFont.truetype(font_path(), S(54))
-F_HUGE = ImageFont.truetype(font_path(), S(64))
-F_HOOK = ImageFont.truetype(font_path(), S(62))
-F_ANSWER = ImageFont.truetype(font_path(), S(96))
+F_LABEL = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(30))
+F_TICK = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(23))
+F_BIG = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(54))
+F_HUGE = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(64))
+F_HOOK = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(62))
+F_ANSWER = ImageFont.truetype("C:/Windows/Fonts/msyhbd.ttc", S(96))
 
 TEXT = ("Сутки на этой планете длиннее года. "
         "И Солнце там встаёт на западе. "
@@ -111,13 +111,15 @@ def main():
 
     frames_dir = os.path.join(OUT, "frames")
     os.makedirs(frames_dir, exist_ok=True)
-    for f in os.listdir(frames_dir):
-        os.remove(os.path.join(frames_dir, f))
+    start = int(os.environ.get("START_FRAME", "0"))
+    if start == 0 and not os.environ.get("KEEP_FRAMES"):
+        for f in os.listdir(frames_dir):
+            os.remove(os.path.join(frames_dir, f))
 
     n = int(total * FPS)
-    start = int(os.environ.get("START_FRAME", "0"))
+    end = min(n, int(os.environ.get("MAX_FRAMES", "1000000")) + start)
     ci = 0
-    for i in range(start, n):
+    for i in range(start, end):
         t = i / FPS
         while ci + 1 < len(cues) and cues[ci + 1][0] <= t:
             ci += 1
@@ -151,25 +153,34 @@ def main():
             k = ease(min(1.0, t / 0.22))
             fade = 1.0 if t < 1.2 else max(0.0, 1 - (t - 1.2) / 0.55)
             txt = "СУТКИ ДЛИННЕЕ ГОДА?"
-            bbox = d.textbbox((0, 0), txt, font=F_HOOK, stroke_width=S(6))
+            f_hook = F_HOOK
+            size = 62
+            while size > 34:
+                f_hook = ImageFont.truetype(font_path(), S(size))
+                bbox = d.textbbox((0, 0), txt, font=f_hook, stroke_width=S(6))
+                if bbox[2] - bbox[0] <= S(W) - S(48):
+                    break
+                size -= 2
+            bbox = d.textbbox((0, 0), txt, font=f_hook, stroke_width=S(6))
             tw = bbox[2] - bbox[0]
             x = (S(W) - tw) / 2 - bbox[0]
             y = int(S(H) * 0.09)
             for layer, alpha in ((S(10), int(70 * fade)), (S(5), int(120 * fade))):
-                d.text((x, y), txt, font=F_HOOK, fill=(255, 120, 60, int(alpha * k)),
+                d.text((x, y), txt, font=f_hook, fill=(255, 120, 60, int(alpha * k)),
                        stroke_width=layer, stroke_fill=(255, 120, 60, int(alpha * k)))
-            d.text((x, y), txt, font=F_HOOK, fill=(255, 244, 214, int(255 * fade * k)),
+            d.text((x, y), txt, font=f_hook, fill=(255, 244, 214, int(255 * fade * k)),
                    stroke_width=S(6), stroke_fill=(12, 14, 26, int(235 * fade)))
 
         # --- карточки ---
-        if t >= ev["d243"]:
+        hide = t >= ev["answer"] - 0.15
+        if t >= ev["d243"] and not hide:
             k = ease(min(1.0, (t - ev["d243"]) / 0.35))
             card(d, S(34), int(S(H) * 0.545), S(300), S(96), int(220 * k))
             num = int(243 * min(1.0, (t - ev["d243"]) / 0.9))
             d.text((S(52), int(S(H) * 0.552)), f"{num} дн", font=F_HUGE, fill=(255, 226, 160))
             d.text((S(52), int(S(H) * 0.605)), "оборот вокруг оси", font=F_TICK, fill=(186, 204, 232))
 
-        if t >= ev["d225"]:
+        if t >= ev["d225"] and not hide:
             k = ease(min(1.0, (t - ev["d225"]) / 0.35))
             card(d, S(W) - S(334), int(S(H) * 0.545), S(300), S(96), int(220 * k))
             num = int(225 * min(1.0, (t - ev["d225"]) / 0.9))
@@ -177,7 +188,7 @@ def main():
             d.text((S(W) - S(316), int(S(H) * 0.605)), "год на планете", font=F_TICK,
                    fill=(186, 204, 232))
 
-        if t >= ev["longer"]:
+        if t >= ev["longer"] and not hide:
             k = ease(min(1.0, (t - ev["longer"]) / 0.35))
             card(d, S(34), int(S(H) * 0.655), S(W) - S(68), S(70), int(235 * k))
             d.text((S(54), int(S(H) * 0.663)), "сутки длиннее года", font=F_LABEL,
@@ -187,22 +198,22 @@ def main():
                    fill=(255, 196, 96, int(220 * k)), width=S(4))
 
         # --- запад ---
-        if t >= ev["west"]:
+        if t >= ev["west"] and not hide:
             k = ease(min(1.0, (t - ev["west"]) / 0.4))
             d.text((S(40), int(S(H) * 0.470)), "Солнце встаёт на западе", font=F_LABEL,
                    fill=(255, 214, 150), stroke_width=S(3), stroke_fill=(6, 8, 16))
 
-        if t >= ev["acid"]:
+        if t >= ev["acid"] and not hide:
             d.text((S(W) - S(286), int(S(H) * 0.470)), "облака: серная кислота", font=F_TICK,
                    fill=(230, 216, 180), stroke_width=S(3), stroke_fill=(6, 8, 16))
 
-        if t >= ev["temp"]:
+        if t >= ev["temp"] and not hide:
             k = ease(min(1.0, (t - ev["temp"]) / 0.35))
             card(d, S(34), int(S(H) * 0.742), S(326), S(96), int(225 * k))
             d.text((S(52), int(S(H) * 0.750)), "464 °C", font=F_HUGE, fill=(255, 168, 120))
             d.text((S(52), int(S(H) * 0.804)), "на поверхности", font=F_TICK, fill=(214, 200, 196))
 
-        if t >= ev["press"]:
+        if t >= ev["press"] and not hide:
             k = ease(min(1.0, (t - ev["press"]) / 0.35))
             card(d, S(W) - S(334), int(S(H) * 0.742), S(300), S(96), int(225 * k))
             d.text((S(W) - S(316), int(S(H) * 0.750)), "92 атм", font=F_HUGE, fill=(168, 214, 246))
@@ -213,9 +224,12 @@ def main():
         if t >= ev["answer"] - 0.15:
             k = ease(min(1.0, (t - ev["answer"] + 0.15) / 0.35))
             box_h = int(S(H) * 0.30)
+            veil = Image.new("RGBA", (S(W), S(H)), (2, 4, 10, 0))
+            ImageDraw.Draw(veil).rectangle([0, 0, S(W), S(H)], fill=(2, 4, 10, int(210 * k)))
+            frame.alpha_composite(veil, (0, 0))
             box = Image.new("RGBA", (S(W), box_h), (4, 8, 18, 0))
             bd = ImageDraw.Draw(box)
-            bd.rectangle([0, 0, S(W), box_h], fill=(4, 8, 18, int(200 * k)))
+            bd.rectangle([0, 0, S(W), box_h], fill=(4, 8, 18, int(235 * k)))
             frame.alpha_composite(box, (0, int(S(H) * 0.33)))
             d = ImageDraw.Draw(frame, "RGBA")
             txt = "ВЕНЕРА"
@@ -229,7 +243,8 @@ def main():
                    font=F_TICK, fill=(212, 226, 246, int(235 * k)),
                    stroke_width=S(4), stroke_fill=(10, 12, 20))
 
-        draw_caption(d, word, y=S(H) - S(150))
+        if not hide:
+            draw_caption(d, word, y=S(H) - S(150))
         frame.convert("RGB").resize((W, H), Image.LANCZOS).save(
             os.path.join(frames_dir, f"f{i:05d}.png"))
         if i % 250 == 0:

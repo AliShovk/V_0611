@@ -16,31 +16,19 @@ import edge_tts
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-def _resolve_ffmpeg():
-    explicit = os.environ.get("FFMPEG")
-    if explicit and os.path.exists(explicit):
-        return explicit
-    try:
-        import imageio_ffmpeg
-        return imageio_ffmpeg.get_ffmpeg_exe()
-    except Exception:
-        return "ffmpeg"
-
-
-FFMPEG = _resolve_ffmpeg()
+FFMPEG = os.path.join(ROOT, ".venv", "Lib", "site-packages", "imageio_ffmpeg",
+                      "binaries", "ffmpeg-win-x86_64-v7.1.exe")
+FONT_BOLD = "C:/Windows/Fonts/msyhbd.ttc"
 
 
 def font_path():
     """Первый найденный шрифт с кириллицей."""
-    for cand in (os.environ.get("FONT_BOLD"),
-                 "C:/Windows/Fonts/msyhbd.ttc",
+    for cand in (os.environ.get("FONT_BOLD"), FONT_BOLD,
                  "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
-                 "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf",
-                 "/System/Library/Fonts/Supplemental/Arial Bold.ttf"):
+                 "/usr/share/fonts/truetype/noto/NotoSans-Bold.ttf"):
         if cand and os.path.exists(cand):
             return cand
-    raise FileNotFoundError("Не найден шрифт: задайте FONT_BOLD")
-FONT_BOLD = None  # считается через font_path()
+    raise FileNotFoundError("Не найден шрифт с кириллицей: задайте FONT_BOLD")
 VOICE = "ru-RU-SvetlanaNeural"
 W, H = 720, 1280
 SS = 2
@@ -52,15 +40,12 @@ def S(v):
 
 
 def font(size):
-    return ImageFont.truetype(font_path(), S(size))
+    return ImageFont.truetype(FONT_BOLD, S(size))
 
 
-try:
-    F_WORD = font(52)
-    F_LABEL = font(34)
-    F_TICK = font(26)
-except FileNotFoundError:  # шрифт появится позже — эпизоды создают свои
-    F_WORD = F_LABEL = F_TICK = None
+F_WORD = font(52)
+F_LABEL = font(34)
+F_TICK = font(26)
 
 
 def lerp(a, b, t):
