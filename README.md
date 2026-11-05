@@ -130,7 +130,12 @@ python -m vgen.pipeline episodes/lock_panama/project.json
 
 **Эпизоды.**
 - `episodes/lock_panama/project.json` — шлюзы Гатун: 26 м, 3 камеры по 8,7 м, вода самотёком;
-- `episodes/crane_balance/project.json` — башенный кран: баланс моментов, полиспаст, башня на сжатие.
+- `episodes/crane_balance/project.json` — башенный кран: баланс моментов, полиспаст, башня на сжатие;
+- `episodes/skyscraper_wind/project.json` — небоскрёбы и ветер: маятник-гаситель, закрутка, night-vector стиль.
+
+**Стиль night-vector** (`renderer: "skyscraper"`, `caption_style: "highlight"`): тёмное звёздное небо,
+плоские силуэты, крупные субтитры с подсветкой ключевых слов, HUD с числами и жёлтый прогресс-бар.
+Ключевые слова берутся из поля `keywords`, субтитры режутся по 4 слова в `vgen/animation.py`.
 
 Рендерер выбирается полем `renderer` в project.json (`lock`, `crane`) — модуль подключается
 из `vgen/renderers/`.

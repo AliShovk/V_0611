@@ -44,6 +44,22 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     t_end = word_time(marks, anchors.get("end", ""), total * 0.95)
     mod = module(project.get("renderer", "lock"))
 
+    # субтитры с подсветкой ключевых слов (стиль night-vector)
+    hl_keys = [k.lower() for k in project.get("keywords", [])]
+    hl_cues = []
+    if project.get("caption_style") == "highlight":
+        toks = project["script"]["narration"].split()
+        i = 0
+        while i < len(toks):
+            j = i
+            while (j + 1 < len(toks) and (j - i + 1) < 4
+                   and not toks[j].endswith((",", ".", "!", "?", "—"))):
+                j += 1
+            st = marks[min(i, len(marks) - 1)][0] if marks else 0.0
+            en = marks[min(j, len(marks) - 1)][1] if marks else st + 1.0
+            hl_cues.append((st, en, " ".join(toks[i:j + 1])))
+            i = j + 1
+
     scenes = storyboard["scenes"]
     frames_dir = os.path.join(out_dir, "assets", "frames")
     os.makedirs(frames_dir, exist_ok=True)
@@ -65,7 +81,18 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
         if t >= t_end - 1.0:
             steps_done = 3
         ctx = {"level": level, "gate_k": gate_k, "steps_done": steps_done,
-               "scene_t": 0.0, "scene_dur": 1.0}
+               "scene_t": 0.0, "scene_dur": 1.0, "total": total,
+               "caption_text": "", "caption_hl": ()}
+        if hl_cues:
+            cur = None
+            for (st, en, txt) in hl_cues:
+                if st <= t:
+                    cur = txt
+            if cur:
+                ctx["caption_text"] = cur
+                ctx["caption_hl"] = tuple(
+                    w for w in cur.split()
+                    if any(k in w.lower() for k in hl_keys))
 
         # сцена по времени
         idx = 0
