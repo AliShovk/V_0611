@@ -9,9 +9,9 @@ from PIL import Image
 
 from vgen import postfx
 
-SRC = '/root/Vgen_041126/storage/cartoon-gazobeton-v3/frames'
-DST = '/root/Vgen_041126/storage/cartoon-gazobeton-v3/frames_post'
-OUT = '/root/Vgen_041126/storage/cartoon-gazobeton-v3'
+OUT = sys.argv[1] if len(sys.argv) > 1 else '/root/Vgen_041126/storage/cartoon-gazobeton-v3'
+SRC = os.path.join(OUT, 'frames')
+DST = os.path.join(OUT, 'frames_post')
 FFMPEG = '/usr/bin/ffmpeg'
 
 os.makedirs(DST, exist_ok=True)
