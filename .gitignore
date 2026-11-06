@@ -7,3 +7,5 @@ out/
 __pycache__/
 *.pyc
 *.log
+.venv/
+out/crane_v2_proto/

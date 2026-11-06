@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from vgen import kit
+from vgen import kit_pil as kit
 from vgen.palette import font
 
 W, H = 1080, 1920
