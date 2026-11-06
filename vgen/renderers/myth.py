@@ -68,10 +68,10 @@ def top_ui(d, section, t, total):
 
 def headline(d, top, bottom, sub=None):
     from vgen.renderers.ev import fit_size
-    fs = fit_size(top, 74, 620)
+    fs = fit_size(top, 74, 560)
     b = d.textbbox((0, 0), top, font=F(fs))
     d.text(XY((W - (b[2] - b[0]) / SS) / 2, 140), top, font=F(fs), fill=WHITE)
-    fb = min(fs, fit_size(bottom, 74, 620))
+    fb = min(fs, fit_size(bottom, 74, 560))
     b2 = d.textbbox((0, 0), bottom, font=F(fb))
     d.text(XY((W - (b2[2] - b2[0]) / SS) / 2, 218), bottom, font=F(fb), fill=RED)
     if sub:
@@ -139,18 +139,66 @@ def card(d, title, body, accent=CYAN, y=520):
         d.text(XY(80, y + 76 + i * 34), ln, font=F(22), fill=(220, 230, 242))
 
 
+_SWEEP = {}
+
+
+def sweep(img, t, alpha=26):
+    """Мягкий плавающий блик: слабая подсветка, не засвечивает текст."""
+    key = img.size
+    if key not in _SWEEP:
+        w, h = key
+        m = Image.new("L", (w, h), 0)
+        d = ImageDraw.Draw(m)
+        d.ellipse([-w * 0.45, -h * 0.1, w * 0.45, h * 0.42], fill=255)
+        _SWEEP[key] = m.filter(ImageFilter.GaussianBlur(int(w * 0.14)))
+    mask = _SWEEP[key].point(lambda v: int(v * alpha / 255.0))
+    layer = Image.new("RGBA", img.size, (120, 205, 245, 255))
+    layer.putalpha(mask)
+    x = int(W * SS * (0.15 + 0.7 * (0.5 + 0.5 * math.sin(t * 0.55))))
+    y = int(H * SS * (0.15 + 0.1 * math.sin(t * 0.4)))
+    shifted = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    shifted.alpha_composite(layer, (x - img.width // 2, y - img.height // 4))
+    return Image.alpha_composite(img.convert("RGBA"), shifted).convert("RGB")
+
+
+def camera(img, t, amp=0.028, speed=0.5, scene_t=None):
+    """Дрейф + смена плана внутри сцены: каждые ~3.2 с новый «кадр».
+
+    Смена плана — это честный монтажный приём: одна и та же картинка
+    читается как три разных ракурса, и ролик не залипает на одном изображении.
+    """
+    w, h = img.size
+    punch = 0.0
+    if scene_t is not None:
+        shot = int(scene_t // 3.2)
+        zooms = (0.0, 0.10, 0.04, 0.13)
+        punch = zooms[shot % len(zooms)]
+        # короткий «наезд» в первые 0.35 с нового плана
+        frac = scene_t % 3.2
+        if frac < 0.35 and shot > 0:
+            punch += 0.03 * (1 - frac / 0.35)
+    k = 1.0 + punch + amp * (0.5 + 0.5 * math.sin(t * speed))
+    nw, nh = int(w * k), int(h * k)
+    dx = int((nw - w) * (0.5 + 0.35 * math.sin(t * speed * 0.7)))
+    dy = int((nh - h) * (0.5 + 0.35 * math.cos(t * speed * 0.6)))
+    return img.resize((nw, nh), Image.BILINEAR).crop((dx, dy, dx + w, dy + h))
+
+
 def scene_hook(t, ctx):
     img = bg().convert("RGBA")
     d = ImageDraw.Draw(img, "RGBA")
-    phone(d, 236, 430, 250, 470)
-    # иконки, улетающие вверх
-    k = min(1.0, t / 2.2)
+    phone(d, 236 + 6 * math.sin(t * 0.9), 430, 250, 470)
+    # знак — под иконками, чтобы не перечёркивать их
+    pulse = 1.0 + 0.02 * math.sin(t * 3.0)
+    no_sign(d, 360, 670, 120 * pulse, 225)
+    # иконки летят вверх, но не заходят в зону заголовка
     icons = [("#2f6f9e", "▶"), ("#8a4d8a", "◎"), ("#2f7a5e", "✦"), ("#a8642f", "▲")]
     for i, (col, g) in enumerate(icons):
-        y = 600 - i * 44 - 160 * k
-        alpha = int(255 * (1 - 0.55 * k))
-        app_icon(d, 268 + (i % 2) * 74, y, 66, tuple(int(col[j:j + 2], 16) for j in (1, 3, 5)), g, alpha)
-    no_sign(d, 360, 660, 120, 235)
+        ph = (t * 0.55 + i * 0.25) % 1.0
+        y = 660 - ph * 210
+        alpha = int(230 * (1 - ph * 0.75))
+        app_icon(d, 262 + (i % 2) * 80 + 5 * math.sin(t * 2 + i), y, 64,
+                 tuple(int(col[j:j + 2], 16) for j in (1, 3, 5)), g, alpha)
     headline(d, "ЗАКРЫВАЕШЬ", "ПРИЛОЖЕНИЯ ЗРЯ", None)
     top_ui(d, "МИФ", t, ctx.get("total", 50))
     return img
@@ -164,7 +212,9 @@ def scene_freeze(t, ctx):
     # «zzz» над приложением
     for i in range(3):
         a = int(220 - i * 55)
-        d.text(XY(430 + i * 14, 470 - i * 34), "z", font=F(34 + i * 8), fill=(120, 180, 210, a))
+        drift = math.sin(t * 1.6 + i) * 8
+        d.text(XY(430 + i * 14 + drift, 470 - i * 34 - (t * 12) % 30), "z",
+               font=F(34 + i * 8), fill=(120, 180, 210, a))
     d.rounded_rectangle(P((486, 600), (600, 648)), radius=X(10), fill=(16, 40, 54))
     d.text(XY(498, 610), "СПИТ", font=F(20), fill=CYAN)
     headline(d, "В ФОНЕ ОНО", "ЗАМОРОЖЕНО", "система не даёт ему работать")
@@ -191,8 +241,9 @@ def scene_relaunch(t, ctx):
 def scene_apple(t, ctx):
     img = bg().convert("RGBA")
     d = ImageDraw.Draw(img, "RGBA")
+    slide = 60 * max(0.0, 1 - t / 0.8)
     # карточка-цитата
-    d.rounded_rectangle(P((56, 420), (W - 56, 760)), radius=X(22), fill=(14, 22, 34, 245),
+    d.rounded_rectangle(P((56, 420 + slide), (W - 56, 760 + slide)), radius=X(22), fill=(14, 22, 34, 245),
                         outline=(70, 90, 110), width=X(3))
     d.text(XY(88, 452), "APPLE", font=F(30), fill=WHITE)
     d.line(P((88, 496), (250, 496)), fill=RED, width=X(4))
@@ -237,7 +288,12 @@ def scene_final(t, ctx):
     d = ImageDraw.Draw(img, "RGBA")
     phone(d, 250, 440, 220, 420)
     # галочка
-    d.line(P((300, 640), (330, 676), (392, 590)), fill=GREEN, width=X(12))
+    k = min(1.0, t / 0.9)
+    seg1 = (330 - 300) * min(1.0, k * 2) + 300
+    d.line(P((300, 640), (seg1, 640 + (676 - 640) * min(1.0, k * 2))), fill=GREEN, width=X(12))
+    if k > 0.5:
+        f2 = (k - 0.5) * 2
+        d.line(P((330, 676), (330 + (392 - 330) * f2, 676 + (590 - 676) * f2)), fill=GREEN, width=X(12))
     d.text(XY(214, 900), "свайп не экономит заряд", font=F(22), fill=GREY)
     headline(d, "ЭТО ПРОСТО", "РИТУАЛ", "батарею экономит не свайп")
     top_ui(d, "ИТОГ", t, ctx.get("total", 50))
@@ -250,6 +306,8 @@ SCENES = {"hook": scene_hook, "freeze": scene_freeze, "relaunch": scene_relaunch
 
 def render(name, t, ctx):
     img = SCENES[name](t, ctx).convert("RGB")
+    img = sweep(img, t)
+    img = camera(img, t, scene_t=ctx.get("scene_t"))
     d = ImageDraw.Draw(img, "RGBA")
     caption(d, ctx.get("caption_text", ""), ctx.get("caption_hl", ()), 1120)
     progress(d, t, ctx.get("total", 50))
