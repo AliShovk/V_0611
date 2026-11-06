@@ -1,5 +1,7 @@
 """Stage 7 — озвучка Edge TTS, субтитры SRT, word-разметка для синхронизации."""
 import asyncio
+import hashlib
+import random
 import json
 import os
 import re
@@ -47,7 +49,7 @@ def _say(text, path, voice, tries=8):
             last = f"tiny {os.path.getsize(path)}B"
         except Exception as exc:
             last = f"{type(exc).__name__}: {exc}"
-        time.sleep(2 + attempt * 2)
+        time.sleep(min(20, 3 + attempt * 3) + random.uniform(0, 1.5))
     raise RuntimeError(f"TTS failed: {last}")
 
 
@@ -61,14 +63,49 @@ def duration(path):
     return 0.0
 
 
+def _split_narration(narration):
+    """Длинные фразы режем по запятым: Edge TTS чаще срывается на длинных кусках."""
+    out = []
+    for sent in [x.strip() for x in re.split(r"(?<=[.!?])\s+", narration) if x.strip()]:
+        if len(sent) <= 120:
+            out.append(sent)
+            continue
+        cur = ""
+        for piece in [p.strip() for p in sent.split(",") if p.strip()]:
+            if not cur:
+                cur = piece
+            elif len(cur) + len(piece) < 95:
+                cur = cur + ", " + piece
+            else:
+                out.append(cur + ",")
+                cur = piece
+        if cur:
+            out.append(cur)
+    return out
+
+
 def build(project, out_dir):
     """voice.mp3 + voice.wav + words.json + subtitles.srt"""
     narration = project["script"]["narration"]
-    sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", narration) if s.strip()]
+    sentences = _split_narration(narration)
+    cache_dir = os.path.join(out_dir, "tts_cache")
+    os.makedirs(cache_dir, exist_ok=True)
     parts, marks, offset = [], [], 0.0
     for i, sentence in enumerate(sentences):
+        key = hashlib.md5((sentence + VOICE + RATE).encode("utf-8")).hexdigest()[:16]
+        cached = os.path.join(cache_dir, key + ".mp3")
+        meta = os.path.join(cache_dir, key + ".json")
         path = os.path.join(out_dir, f"part{i:02d}.mp3")
-        chunk = _say(sentence, path, VOICE)
+        if os.path.exists(cached) and os.path.getsize(cached) > 2000 and os.path.exists(meta):
+            chunk = [tuple(x) for x in json.load(open(meta, encoding="utf-8"))]
+            with open(cached, "rb") as src, open(path, "wb") as dst:
+                dst.write(src.read())
+        else:
+            chunk = _say(sentence, path, VOICE)
+            with open(path, "rb") as src, open(cached, "wb") as dst:
+                dst.write(src.read())
+            json.dump(chunk, open(meta, "w", encoding="utf-8"), ensure_ascii=False)
+        time.sleep(0.9)
         dur = duration(path)
         for (st, d, w) in chunk:
             marks.append((st + offset, d, w))
