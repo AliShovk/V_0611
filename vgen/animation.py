@@ -142,8 +142,27 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     sfx.mix(silent, voice["wav"], fx, mixed, video_sfx_gain=0.75)
 
     final = os.path.join(out_dir, "final.mp4")
+    vf = "scale=1080:1920:flags=lanczos"
+    if project.get("post"):
+        # bloom + тёплый грейд + хроматика + резкость + виньетка + зерно — одним проходом
+        vf = ("split=2[a][b];"
+              "[b]gblur=sigma=14,eq=brightness=-0.06:contrast=1.05[glow];"
+              "[a][glow]blend=all_mode=screen:all_opacity=0.30[bl];"
+              "[bl]colorbalance=rs=0.03:gs=0.0:bs=-0.03,"
+              "eq=contrast=1.05:saturation=1.06,"
+              "rgbashift=rh=-1:bh=1,"
+              "unsharp=5:5:0.45,"
+              "vignette=angle=PI/5,"
+              "noise=alls=4:allf=t+u,"
+              "scale=1080:1920:flags=lanczos:in_range=full:out_range=tv,format=yuv420p[v]")
+        subprocess.run([FFMPEG, "-y", "-v", "error", "-i", mixed,
+                        "-filter_complex", vf, "-map", "[v]", "-map", "0:a",
+                        "-c:v", "libx264", "-preset", "medium", "-crf", "19",
+                        "-pix_fmt", "yuv420p", "-color_range", "tv", "-c:a", "aac", "-b:a", "160k",
+                        "-movflags", "+faststart", final], check=True)
+        return {"final": final, "frames": n, "total": total}
     subprocess.run([FFMPEG, "-y", "-v", "error", "-i", mixed,
-                    "-vf", "scale=1080:1920:flags=lanczos",
+                    "-vf", vf,
                     "-c:v", "libx264", "-preset", "medium", "-crf", "19",
                     "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
                     "-movflags", "+faststart", final], check=True)
