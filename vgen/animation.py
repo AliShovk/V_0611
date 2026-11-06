@@ -145,7 +145,9 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     vf = "scale=1080:1920:flags=lanczos"
     if project.get("post"):
         # bloom + тёплый грейд + хроматика + резкость + виньетка + зерно — одним проходом
-        vf = ("split=2[a][b];"
+        kb = ("zoompan=z='min(zoom+0.0006,1.08)':x='iw/2-(iw/zoom/2)':"
+              "y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,") if project.get("kenburns") else ""
+        vf = (kb + "split=2[a][b];"
               "[b]gblur=sigma=14,eq=brightness=-0.06:contrast=1.05[glow];"
               "[a][glow]blend=all_mode=screen:all_opacity=0.30[bl];"
               "[bl]colorbalance=rs=0.03:gs=0.0:bs=-0.03,"
