@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="300" viewBox="0 0 300 300">
+  <defs>
+    <radialGradient id="merc" cx="0.36" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#d8d4cc"/>
+      <stop offset="0.45" stop-color="#a8a49c"/>
+      <stop offset="0.8" stop-color="#6d6a64"/>
+      <stop offset="1" stop-color="#2b2926"/>
+    </radialGradient>
+    <clipPath id="md"><circle cx="150" cy="150" r="118"/></clipPath>
+    <filter id="mb" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="2"/></filter>
+  </defs>
+  <circle cx="150" cy="150" r="128" fill="#9a968e" opacity="0.10" filter="url(#mb)"/>
+  <circle cx="150" cy="150" r="118" fill="url(#merc)"/>
+  <g clip-path="url(#md)">
+    <g fill="#7d7a73" opacity="0.75">
+      <circle cx="104" cy="112" r="16"/><circle cx="176" cy="96" r="9"/>
+      <circle cx="196" cy="150" r="13"/><circle cx="132" cy="186" r="19"/>
+      <circle cx="88" cy="168" r="8"/><circle cx="164" cy="206" r="7"/>
+      <circle cx="206" cy="196" r="5"/><circle cx="120" cy="70" r="6"/>
+    </g>
+    <g fill="#4d4a45" opacity="0.55">
+      <circle cx="104" cy="112" r="10"/><circle cx="132" cy="186" r="12"/><circle cx="196" cy="150" r="8"/>
+    </g>
+    <g fill="none" stroke="#e6e1d6" stroke-width="2.2" opacity="0.45">
+      <path d="M96 100 C 108 92, 122 94, 128 102"/>
+      <circle cx="132" cy="186" r="15"/>
+    </g>
+    <path d="M150 32 C 220 60, 262 104, 268 150 C 262 196, 220 240, 150 268 C 120 268, 120 32, 150 32 Z"
+          fill="#1a1815" opacity="0.35"/>
+  </g>
+</svg>

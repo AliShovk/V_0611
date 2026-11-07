@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="260" height="260" viewBox="0 0 260 260">
+  <defs>
+    <radialGradient id="disc" cx="0.42" cy="0.38" r="0.62">
+      <stop offset="0" stop-color="#fff8d6"/>
+      <stop offset="0.55" stop-color="#ffd873"/>
+      <stop offset="1" stop-color="#ff9f3c"/>
+    </radialGradient>
+    <radialGradient id="corona" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0.45" stop-color="#ffcf7a" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffcf7a" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="sb" x="-40%" y="-40%" width="180%" height="180%"><feGaussianBlur stdDeviation="9"/></filter>
+  </defs>
+  <circle cx="130" cy="130" r="126" fill="url(#corona)"/>
+  <circle cx="130" cy="130" r="86" fill="url(#disc)"/>
+  <circle cx="130" cy="130" r="86" fill="none" stroke="#fff3c4" stroke-width="3" opacity="0.5"/>
+  <g filter="url(#sb)" opacity="0.45">
+    <circle cx="104" cy="104" r="14" fill="#fff6cf"/>
+    <circle cx="152" cy="118" r="10" fill="#fff6cf"/>
+    <circle cx="120" cy="158" r="12" fill="#fff6cf"/>
+  </g>
+</svg>

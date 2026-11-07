@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="tile" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3D4A68"/>
+      <stop offset="1" stop-color="#232C42"/>
+    </linearGradient>
+    <linearGradient id="tile2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4A5878"/>
+      <stop offset="1" stop-color="#2A3348"/>
+    </linearGradient>
+  </defs>
+
+  <!-- плитка, уложенная с завалом: нижний ряд уезжает вниз -->
+  <g stroke="#151C2C" stroke-width="3">
+    <g fill="url(#tile)">
+      <rect x="40" y="120" width="120" height="120" rx="6"/>
+      <rect x="168" y="120" width="120" height="120" rx="6"/>
+      <rect x="296" y="120" width="120" height="120" rx="6"/>
+      <rect x="424" y="120" width="120" height="120" rx="6"/>
+    </g>
+    <g fill="url(#tile2)">
+      <rect x="40" y="248" width="120" height="120" rx="6"/>
+      <rect x="168" y="252" width="120" height="120" rx="6"/>
+      <rect x="296" y="259" width="120" height="120" rx="6"/>
+      <rect x="424" y="266" width="120" height="120" rx="6"/>
+    </g>
+    <g fill="url(#tile)">
+      <rect x="40" y="376" width="120" height="120" rx="6"/>
+      <rect x="168" y="383" width="120" height="120" rx="6"/>
+      <rect x="296" y="390" width="120" height="120" rx="6"/>
+      <rect x="424" y="397" width="120" height="120" rx="6"/>
+    </g>
+  </g>
+
+  <!-- линия завала -->
+  <line x1="30" y1="240" x2="570" y2="300" stroke="#FF5B4A" stroke-width="6" stroke-dasharray="18 12"/>
+
+  <!-- размер завала -->
+  <g stroke="#FFE1DC" stroke-width="4">
+    <line x1="556" y1="286" x2="556" y2="346"/>
+    <line x1="546" y1="292" x2="566" y2="292"/>
+    <line x1="546" y1="340" x2="566" y2="340"/>
+  </g>
+  <text x="524" y="330" font-family="DejaVu Sans" font-size="26" fill="#FFB4A6" text-anchor="end">8 мм</text>
+</svg>

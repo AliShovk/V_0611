@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="1280" viewBox="0 0 720 1280">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0.2" y2="1">
+      <stop offset="0" stop-color="#050814"/>
+      <stop offset="0.55" stop-color="#0b1430"/>
+      <stop offset="1" stop-color="#16233f"/>
+    </linearGradient>
+    <linearGradient id="soil1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3a2a20"/>
+      <stop offset="1" stop-color="#2b1f18"/>
+    </linearGradient>
+    <linearGradient id="soil2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4a3526"/>
+      <stop offset="1" stop-color="#3a2a1e"/>
+    </linearGradient>
+    <linearGradient id="soil3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#5b4632"/>
+      <stop offset="1" stop-color="#463526"/>
+    </linearGradient>
+    <linearGradient id="rock" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#3c3a3e"/>
+      <stop offset="1" stop-color="#242329"/>
+    </linearGradient>
+    <linearGradient id="bldg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#101a2e"/>
+      <stop offset="1" stop-color="#0a1222"/>
+    </linearGradient>
+    <filter id="glow" x="-60%" y="-60%" width="220%" height="220%">
+      <feGaussianBlur stdDeviation="6"/>
+    </filter>
+  </defs>
+
+  <rect width="720" height="1280" fill="url(#sky)"/>
+
+  <!-- звёзды -->
+  <g fill="#dce8ff">
+    <circle cx="48" cy="60" r="1.5" opacity="0.9"/><circle cx="132" cy="30" r="1.1" opacity="0.7"/>
+    <circle cx="210" cy="94" r="1.7" opacity="0.85"/><circle cx="300" cy="44" r="1.2" opacity="0.6"/>
+    <circle cx="372" cy="110" r="1.4" opacity="0.7"/><circle cx="452" cy="52" r="1.6" opacity="0.8"/>
+    <circle cx="530" cy="120" r="1.1" opacity="0.55"/><circle cx="612" cy="70" r="1.5" opacity="0.75"/>
+    <circle cx="676" cy="130" r="1.2" opacity="0.6"/><circle cx="86" cy="180" r="1.3" opacity="0.5"/>
+    <circle cx="254" cy="196" r="1.0" opacity="0.45"/><circle cx="430" cy="186" r="1.4" opacity="0.55"/>
+    <circle cx="560" cy="222" r="1.1" opacity="0.5"/><circle cx="650" cy="250" r="1.3" opacity="0.45"/>
+    <circle cx="160" cy="286" r="1.2" opacity="0.4"/><circle cx="340" cy="300" r="1.0" opacity="0.4"/>
+  </g>
+
+  <!-- луна -->
+  <circle cx="604" cy="150" r="42" fill="#e8eefc" opacity="0.10" filter="url(#glow)"/>
+  <circle cx="604" cy="150" r="26" fill="#dfe7f7" opacity="0.85"/>
+  <circle cx="596" cy="142" r="5" fill="#b9c4d8" opacity="0.5"/>
+  <circle cx="612" cy="160" r="4" fill="#b9c4d8" opacity="0.4"/>
+
+  <!-- дальний город -->
+  <g fill="#0a1224" opacity="0.85">
+    <rect x="20" y="720" width="70" height="200"/>
+    <rect x="96" y="668" width="54" height="252"/>
+    <rect x="156" y="742" width="86" height="178"/>
+    <rect x="250" y="640" width="62" height="280"/>
+    <rect x="320" y="700" width="78" height="220"/>
+    <rect x="404" y="600" width="70" height="320"/>
+    <rect x="482" y="690" width="66" height="230"/>
+    <rect x="556" y="650" width="90" height="270"/>
+    <rect x="652" y="730" width="60" height="190"/>
+  </g>
+
+  <!-- ближний город -->
+  <g>
+    <rect x="40" y="660" width="112" height="300" fill="url(#bldg)" stroke="#1b2a44" stroke-width="2"/>
+    <rect x="168" y="700" width="96" height="260" fill="url(#bldg)" stroke="#1b2a44" stroke-width="2"/>
+    <rect x="280" y="620" width="140" height="340" fill="url(#bldg)" stroke="#1b2a44" stroke-width="2"/>
+    <rect x="436" y="690" width="104" height="270" fill="url(#bldg)" stroke="#1b2a44" stroke-width="2"/>
+    <rect x="556" y="640" width="128" height="320" fill="url(#bldg)" stroke="#1b2a44" stroke-width="2"/>
+  </g>
+
+  <!-- окна -->
+  <g fill="#ffcf72">
+    <g opacity="0.85">
+      <rect x="54" y="676" width="8" height="10"/><rect x="76" y="676" width="8" height="10"/>
+      <rect x="98" y="700" width="8" height="10"/><rect x="120" y="676" width="8" height="10"/>
+      <rect x="54" y="712" width="8" height="10"/><rect x="98" y="736" width="8" height="10"/>
+      <rect x="120" y="760" width="8" height="10"/><rect x="76" y="796" width="8" height="10"/>
+    </g>
+    <g opacity="0.7">
+      <rect x="182" y="716" width="7" height="9"/><rect x="204" y="740" width="7" height="9"/>
+      <rect x="226" y="716" width="7" height="9"/><rect x="248" y="764" width="7" height="9"/>
+      <rect x="182" y="788" width="7" height="9"/><rect x="226" y="812" width="7" height="9"/>
+    </g>
+    <g opacity="0.9">
+      <rect x="296" y="640" width="10" height="12"/><rect x="322" y="640" width="10" height="12"/>
+      <rect x="348" y="664" width="10" height="12"/><rect x="374" y="640" width="10" height="12"/>
+      <rect x="296" y="688" width="10" height="12"/><rect x="348" y="712" width="10" height="12"/>
+      <rect x="400" y="688" width="10" height="12"/><rect x="322" y="760" width="10" height="12"/>
+      <rect x="374" y="808" width="10" height="12"/><rect x="296" y="856" width="10" height="12"/>
+    </g>
+    <g opacity="0.65">
+      <rect x="450" y="706" width="8" height="10"/><rect x="472" y="730" width="8" height="10"/>
+      <rect x="494" y="706" width="8" height="10"/><rect x="516" y="754" width="8" height="10"/>
+      <rect x="450" y="778" width="8" height="10"/><rect x="494" y="802" width="8" height="10"/>
+    </g>
+    <g opacity="0.8">
+      <rect x="572" y="658" width="9" height="11"/><rect x="596" y="682" width="9" height="11"/>
+      <rect x="620" y="658" width="9" height="11"/><rect x="644" y="706" width="9" height="11"/>
+      <rect x="572" y="730" width="9" height="11"/><rect x="620" y="754" width="9" height="11"/>
+      <rect x="596" y="802" width="9" height="11"/><rect x="644" y="826" width="9" height="11"/>
+    </g>
+  </g>
+
+  <!-- крыши и антенны -->
+  <g stroke="#1b2a44" stroke-width="2" fill="none">
+    <path d="M280 620 L350 596 L420 620"/>
+    <path d="M556 640 L620 618 L684 640"/>
+    <path d="M350 596 L350 570"/>
+  </g>
+
+  <!-- земля: слои -->
+  <rect x="0" y="946" width="720" height="70" fill="url(#soil1)"/>
+  <rect x="0" y="1016" width="720" height="96" fill="url(#soil2)"/>
+  <rect x="0" y="1112" width="720" height="96" fill="url(#soil3)"/>
+  <rect x="0" y="1208" width="720" height="72" fill="url(#rock)"/>
+
+  <!-- текстура слоёв -->
+  <g fill="#000" opacity="0.18">
+    <circle cx="60" cy="960" r="2"/><circle cx="140" cy="972" r="3"/><circle cx="220" cy="958" r="2"/>
+    <circle cx="300" cy="976" r="2.5"/><circle cx="380" cy="962" r="2"/><circle cx="460" cy="974" r="3"/>
+    <circle cx="540" cy="960" r="2"/><circle cx="620" cy="972" r="2.5"/><circle cx="690" cy="958" r="2"/>
+  </g>
+  <g fill="#d8c9a8" opacity="0.12">
+    <circle cx="90" cy="1040" r="3"/><circle cx="180" cy="1062" r="2"/><circle cx="260" cy="1036" r="4"/>
+    <circle cx="350" cy="1072" r="2.5"/><circle cx="430" cy="1044" r="3"/><circle cx="520" cy="1066" r="2"/>
+    <circle cx="610" cy="1038" r="3.5"/><circle cx="680" cy="1060" r="2"/>
+  </g>
+  <g fill="#8f8375" opacity="0.20">
+    <ellipse cx="110" cy="1150" rx="18" ry="9"/><ellipse cx="250" cy="1176" rx="24" ry="11"/>
+    <ellipse cx="400" cy="1146" rx="16" ry="8"/><ellipse cx="540" cy="1180" rx="22" ry="10"/>
+    <ellipse cx="660" cy="1150" rx="18" ry="9"/>
+  </g>
+  <g stroke="#6a5a48" stroke-width="1.4" opacity="0.35" fill="none">
+    <path d="M0 1046 C 120 1038, 240 1054, 360 1046 C 480 1038, 600 1054, 720 1046"/>
+    <path d="M0 1100 C 140 1092, 280 1108, 420 1100 C 540 1092, 640 1106, 720 1100"/>
+    <path d="M0 1196 C 160 1188, 320 1204, 480 1196 C 580 1190, 660 1200, 720 1196"/>
+  </g>
+
+  <!-- грунтовые воды -->
+  <g stroke="#4aa8d8" stroke-width="2.5" opacity="0.45" stroke-dasharray="14 10" fill="none">
+    <path d="M0 1120 C 120 1112, 240 1128, 360 1120 C 480 1112, 600 1128, 720 1120"/>
+  </g>
+
+  <!-- коммуникации -->
+  <g>
+    <rect x="0" y="972" width="720" height="10" fill="#2b3b4e" opacity="0.9"/>
+    <rect x="0" y="986" width="720" height="4" fill="#1d2a38" opacity="0.9"/>
+    <g fill="#8fb6d8" opacity="0.7">
+      <circle cx="70" cy="977" r="2"/><circle cx="210" cy="977" r="2"/><circle cx="350" cy="977" r="2"/>
+      <circle cx="490" cy="977" r="2"/><circle cx="630" cy="977" r="2"/>
+    </g>
+    <g stroke="#c98a4a" stroke-width="3" opacity="0.55" fill="none">
+      <path d="M0 1006 C 180 998, 360 1014, 540 1006 C 620 1002, 680 1008, 720 1006"/>
+    </g>
+  </g>
+
+  <!-- сваи под домами -->
+  <g fill="#2a2a30" opacity="0.85">
+    <rect x="72" y="946" width="12" height="150"/>
+    <rect x="124" y="946" width="12" height="170"/>
+    <rect x="300" y="946" width="14" height="190"/>
+    <rect x="392" y="946" width="14" height="176"/>
+    <rect x="470" y="946" width="12" height="160"/>
+    <rect x="610" y="946" width="14" height="186"/>
+  </g>
+  <g fill="#3a3a42" opacity="0.6">
+    <rect x="72" y="1096" width="12" height="10"/>
+    <rect x="124" y="1116" width="12" height="10"/>
+    <rect x="300" y="1136" width="14" height="10"/>
+    <rect x="392" y="1122" width="14" height="10"/>
+    <rect x="470" y="1106" width="12" height="10"/>
+    <rect x="610" y="1132" width="14" height="10"/>
+  </g>
+
+  <!-- подземные пешеходные/авто тоннели мелкого заложения -->
+  <g opacity="0.0">
+    <rect x="0" y="1000" width="720" height="0" fill="#000"/>
+  </g>
+
+  <!-- улица и тротуар -->
+  <rect x="0" y="906" width="720" height="26" fill="#151b26"/>
+  <rect x="0" y="906" width="720" height="5" fill="#2b3546"/>
+  <g stroke="#3b4759" stroke-width="2" opacity="0.8">
+    <path d="M40 924 L 96 924"/><path d="M150 924 L 206 924"/><path d="M260 924 L 316 924"/>
+    <path d="M370 924 L 426 924"/><path d="M480 924 L 536 924"/><path d="M590 924 L 646 924"/>
+  </g>
+  <!-- входы в здания -->
+  <g fill="#0d1524" stroke="#2b3546">
+    <rect x="72" y="884" width="22" height="24"/><rect x="300" y="878" width="26" height="30"/>
+    <rect x="580" y="884" width="22" height="24"/>
+  </g>
+  <!-- подвалы -->
+  <g fill="#1a2230" stroke="#2f3a4a" stroke-width="2" opacity="0.95">
+    <rect x="56" y="946" width="84" height="52"/><rect x="292" y="946" width="120" height="58"/>
+    <rect x="566" y="946" width="108" height="54"/>
+  </g>
+  <!-- валуны и корни -->
+  <g fill="#6b5a46" opacity="0.5">
+    <ellipse cx="200" cy="1216" rx="26" ry="13"/><ellipse cx="452" cy="1232" rx="22" ry="11"/>
+  </g>
+  <g stroke="#4a3a2a" stroke-width="2" opacity="0.4" fill="none">
+    <path d="M120 946 C 128 976, 118 1002, 126 1030"/>
+    <path d="M410 946 C 418 980, 408 1010, 416 1042"/>
+  </g>
+</svg>

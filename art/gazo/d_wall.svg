@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="blk" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#39445F"/>
+      <stop offset="1" stop-color="#242C42"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F2F5FA"/>
+      <stop offset="0.45" stop-color="#B9C2D4"/>
+      <stop offset="1" stop-color="#7A8398"/>
+    </linearGradient>
+    </defs>
+
+  <g>
+    <g fill="url(#blk)" stroke="#4C5878" stroke-width="3">
+      <rect x="24" y="110" width="180" height="92" rx="10"/>
+      <rect x="210" y="110" width="180" height="92" rx="10"/>
+      <rect x="396" y="110" width="180" height="92" rx="10"/>
+      <rect x="24" y="208" width="180" height="92" rx="10"/>
+      <rect x="210" y="208" width="180" height="92" rx="10"/>
+      <rect x="396" y="208" width="180" height="92" rx="10"/>
+      <rect x="24" y="306" width="180" height="92" rx="10"/>
+      <rect x="210" y="306" width="180" height="92" rx="10"/>
+      <rect x="396" y="306" width="180" height="92" rx="10"/>
+      <rect x="24" y="404" width="180" height="92" rx="10"/>
+      <rect x="210" y="404" width="180" height="92" rx="10"/>
+      <rect x="396" y="404" width="180" height="92" rx="10"/>
+    </g>
+  </g>
+
+  <!-- блики на верхних рёбрах -->
+  <g stroke="#6B7AA0" stroke-width="3" stroke-linecap="round" opacity="0.85">
+    <line x1="36" y1="114" x2="192" y2="114"/>
+    <line x1="222" y1="114" x2="378" y2="114"/>
+    <line x1="408" y1="114" x2="564" y2="114"/>
+    <line x1="36" y1="310" x2="192" y2="310"/>
+    <line x1="408" y1="310" x2="564" y2="310"/>
+  </g>
+
+  <!-- пористая текстура -->
+  <g fill="#1B2234" opacity="0.55">
+    <circle cx="70" cy="150" r="4"/><circle cx="132" cy="180" r="3"/><circle cx="250" cy="160" r="4"/>
+    <circle cx="330" cy="145" r="3"/><circle cx="440" cy="175" r="4"/><circle cx="520" cy="150" r="3"/>
+    <circle cx="60" cy="250" r="3"/><circle cx="180" cy="270" r="4"/><circle cx="300" cy="245" r="3"/>
+    <circle cx="420" cy="262" r="4"/><circle cx="540" cy="240" r="3"/>
+    <circle cx="90" cy="350" r="4"/><circle cx="240" cy="372" r="3"/><circle cx="380" cy="345" r="4"/>
+    <circle cx="500" cy="366" r="3"/><circle cx="120" cy="450" r="3"/><circle cx="320" cy="462" r="4"/>
+    <circle cx="470" cy="440" r="3"/>
+  </g>
+
+  <!-- отверстие -->
+  <ellipse cx="300" cy="330" rx="34" ry="26" fill="#0B1120" opacity="0.85"/>
+  <ellipse cx="300" cy="326" rx="24" ry="17" fill="#59647F" opacity="0.5"/>
+
+  <!-- дюбель -->
+  <g>
+    <rect x="286" y="252" width="28" height="86" rx="8" fill="url(#metal)" stroke="#8E99AF" stroke-width="2"/>
+    <g stroke="#7C879D" stroke-width="3" stroke-linecap="round" opacity="0.9">
+      <line x1="286" y1="272" x2="314" y2="268"/>
+      <line x1="286" y1="292" x2="314" y2="288"/>
+      <line x1="286" y1="312" x2="314" y2="308"/>
+    </g>
+    <ellipse cx="300" cy="250" rx="24" ry="10" fill="url(#metal)" stroke="#9AA5BB" stroke-width="2"/>
+  </g>
+
+  <!-- стрелка проворота -->
+  <g stroke="#FF5B4A" stroke-width="8" fill="none" stroke-linecap="round">
+    <path d="M 300 200 A 62 62 0 1 1 238 248"/>
+    <path d="M 228 222 L 240 252 L 268 236" stroke-linejoin="round"/>
+  </g>
+</svg>

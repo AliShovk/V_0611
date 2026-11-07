@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400">
+  <defs>
+    <linearGradient id="b1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#86dcff"/>
+      <stop offset="0.30" stop-color="#39a7df"/>
+      <stop offset="0.75" stop-color="#1a628c"/>
+      <stop offset="1" stop-color="#0e3d59"/>
+    </linearGradient>
+    <linearGradient id="gl" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#16323f"/>
+      <stop offset="0.55" stop-color="#0b1b26"/>
+      <stop offset="1" stop-color="#050d14"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f2f9ff"/>
+      <stop offset="0.55" stop-color="#9fb4c6"/>
+      <stop offset="1" stop-color="#46586a"/>
+    </linearGradient>
+  </defs>
+
+  <ellipse cx="450" cy="384" rx="380" ry="14" fill="#000" opacity="0.45"/>
+
+  <path d="M66 296
+           C 58 272, 66 250, 88 242
+           L 214 226
+           L 246 150
+           C 256 128, 276 116, 302 114
+           L 606 108
+           C 632 108, 650 118, 662 138
+           L 716 226
+           L 800 242
+           C 822 248, 832 266, 832 288
+           C 832 302, 822 310, 804 310
+           L 108 310
+           C 82 310, 68 306, 66 296 Z"
+        fill="url(#b1)" stroke="#08202f" stroke-width="5"/>
+
+  <path d="M96 310 L 812 310 C 812 322, 804 330, 790 330 L 118 330 C 104 330, 96 322, 96 310 Z"
+        fill="#0a1d29"/>
+
+  <path d="M256 214 L 284 156 C 292 142, 306 136, 322 136 L 456 134 L 456 214 Z"
+        fill="url(#gl)" stroke="#08202f" stroke-width="4"/>
+  <path d="M474 134 L 598 132 C 614 132, 624 138, 632 150 L 670 214 L 474 214 Z"
+        fill="url(#gl)" stroke="#08202f" stroke-width="4"/>
+  <path d="M270 206 L 292 158 L 318 158 L 300 206 Z" fill="#a8ecff" opacity="0.20"/>
+  <path d="M484 206 L 500 150 L 524 150 L 510 206 Z" fill="#a8ecff" opacity="0.16"/>
+
+  <path d="M462 134 L 462 214" stroke="#08202f" stroke-width="7"/>
+
+  <path d="M330 104 L 604 98" stroke="#08202f" stroke-width="8" stroke-linecap="round"/>
+  <path d="M330 100 L 604 94" stroke="#7fd6ff" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+
+  <path d="M448 206 L 470 200 L 474 214 L 450 218 Z" fill="#0d3347" stroke="#08202f" stroke-width="3"/>
+
+  <g fill="#d8f4ff" opacity="0.85">
+    <rect x="392" y="240" width="44" height="10" rx="5"/>
+    <rect x="520" y="240" width="44" height="10" rx="5"/>
+  </g>
+
+  <path d="M110 250 C 210 236, 320 228, 430 226" stroke="#a8ecff" stroke-width="2.5" opacity="0.45" fill="none"/>
+  <path d="M600 234 C 680 240, 750 250, 796 262" stroke="#a8ecff" stroke-width="2.5" opacity="0.35" fill="none"/>
+
+  <g fill="none" stroke="#0a1d29" stroke-width="12">
+    <path d="M172 310 A 78 78 0 0 1 328 310"/>
+    <path d="M560 310 A 78 78 0 0 1 716 310"/>
+  </g>
+
+  <path d="M812 236 L 832 244 L 830 262 L 808 254 Z" fill="#e6fbff" stroke="#08202f" stroke-width="3"/>
+  <path d="M788 276 L 820 282" stroke="#08202f" stroke-width="4"/>
+  <path d="M70 246 L 96 244 L 96 272 L 72 276 Z" fill="#ff5a5a" opacity="0.92"/>
+
+  <g>
+    <circle cx="250" cy="330" r="70" fill="#070e14" stroke="#08202f" stroke-width="5"/>
+    <circle cx="250" cy="330" r="56" fill="none" stroke="url(#rim)" stroke-width="8"/>
+    <g stroke="#c6dced" stroke-width="6" opacity="0.9" stroke-linecap="round">
+      <path d="M250 276 L 250 384"/><path d="M196 330 L 304 330"/>
+      <path d="M212 292 L 288 368"/><path d="M288 292 L 212 368"/>
+    </g>
+    <circle cx="250" cy="330" r="13" fill="#f2f9ff"/>
+  </g>
+  <g>
+    <circle cx="644" cy="330" r="70" fill="#070e14" stroke="#08202f" stroke-width="5"/>
+    <circle cx="644" cy="330" r="56" fill="none" stroke="url(#rim)" stroke-width="8"/>
+    <g stroke="#c6dced" stroke-width="6" opacity="0.9" stroke-linecap="round">
+      <path d="M644 276 L 644 384"/><path d="M590 330 L 698 330"/>
+      <path d="M606 292 L 682 368"/><path d="M682 292 L 606 368"/>
+    </g>
+    <circle cx="644" cy="330" r="13" fill="#f2f9ff"/>
+  </g>
+
+  <path d="M312 114 C 400 108, 540 106, 630 110" stroke="#dcf7ff" stroke-width="5" opacity="0.3" fill="none"/>
+
+  <path d="M836 234 L 900 200 L 900 300 L 832 264 Z" fill="#ffe98a" opacity="0.28"/>
+</svg>

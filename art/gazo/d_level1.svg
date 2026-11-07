@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420">
+  <defs>
+    <linearGradient id="alu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6ECF5"/>
+      <stop offset="0.5" stop-color="#A5B0C4"/>
+      <stop offset="1" stop-color="#616C84"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CFF4FA"/>
+      <stop offset="1" stop-color="#63BCCF"/>
+    </linearGradient>
+    <linearGradient id="wallg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#33405C"/>
+      <stop offset="1" stop-color="#1B2338"/>
+    </linearGradient>
+  </defs>
+
+  <!-- фрагмент стены -->
+  <g>
+    <rect x="30" y="60" width="540" height="300" rx="16" fill="url(#wallg)" stroke="#455172" stroke-width="3"/>
+    <g stroke="#28324B" stroke-width="3">
+      <line x1="30" y1="160" x2="570" y2="160"/>
+      <line x1="30" y1="260" x2="570" y2="260"/>
+      <line x1="210" y1="60" x2="210" y2="160"/>
+      <line x1="390" y1="160" x2="390" y2="260"/>
+    </g>
+  </g>
+
+  <!-- уровень -->
+  <g>
+    <rect x="90" y="190" width="420" height="54" rx="12" fill="url(#alu)" stroke="#7C879D" stroke-width="3"/>
+    <rect x="236" y="203" width="128" height="28" rx="9" fill="url(#glass)" stroke="#8ED7E4" stroke-width="2"/>
+    <line x1="300" y1="203" x2="300" y2="231" stroke="#1B2234" stroke-width="2" opacity="0.45"/>
+    <line x1="286" y1="203" x2="286" y2="231" stroke="#FFFFFF" stroke-width="2" opacity="0.65"/>
+    <line x1="314" y1="203" x2="314" y2="231" stroke="#FFFFFF" stroke-width="2" opacity="0.65"/>
+    <ellipse cx="300" cy="217" rx="20" ry="9" fill="#EAF9FC" stroke="#FFFFFF" stroke-width="2"/>
+    <circle cx="420" cy="217" r="13" fill="#2A3550" stroke="#7C879D" stroke-width="2"/>
+  </g>
+
+  <text x="300" y="150" font-family="DejaVu Sans" font-size="30" fill="#7FE6F2" text-anchor="middle">пузырёк по центру</text>
+</svg>
