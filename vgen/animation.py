@@ -172,7 +172,7 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     preset = project.get("preset") or "faster"
     crf = str(project.get("crf") or 19)
 
-    kb = ("zoompan=z='min(1+0.0012*on,1.16)':x='iw/2-(iw/zoom/2)':"
+    kb = ("zoompan=z='min(1+0.0008*on,1.10)':x='iw/2-(iw/zoom/2)':"
           "y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,") if project.get("kenburns") else ""
 
     if project.get("post"):
