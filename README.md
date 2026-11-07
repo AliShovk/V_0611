@@ -110,6 +110,7 @@ uv pip install --python .venv/Scripts/python.exe -r requirements.txt skia-python
 
 Эпизоды в репозитории:
 
+- `episodes/hoover_cool` — плотина Гувера и охлаждение бетона (`renderer: "hoover"`, Skia, 54 с);
 - `episodes/burj_wind` — Бурдж-Халифа и ветер (`renderer: "burj_v2"`, Skia);
 - `episodes/crane_balance` — кран (`crane`, старая версия; `crane_v2` пока только хук);
 - `episodes/lock_panama` — шлюзы Гатун: 26 м, 3 камеры по 8,7 м, вода самотёком;
