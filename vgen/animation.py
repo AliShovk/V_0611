@@ -143,7 +143,7 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
 
     # параллельный рендер; число процессов = ядра - 1, но не больше 8
     workers = int(os.environ.get("VGEN_WORKERS") or
-                  max(1, min(8, (os.cpu_count() or 2) - 1)))
+                  max(1, min(8, (os.cpu_count() or 2))))
     done = 0
     if workers == 1:
         for job in jobs:
@@ -169,22 +169,22 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
 
     final = os.path.join(out_dir, "final.mp4")
     pattern = os.path.join(frames_dir, "f%05d.jpg" if JPEG else "f%05d.png")
-    preset = project.get("preset") or "medium"
-    crf = str(project.get("crf") or 18)
+    preset = project.get("preset") or "faster"
+    crf = str(project.get("crf") or 19)
 
     kb = ("zoompan=z='min(1+0.0012*on,1.16)':x='iw/2-(iw/zoom/2)':"
           "y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,") if project.get("kenburns") else ""
 
     if project.get("post"):
         vf = (kb + "split=2[a][b];"
-              "[b]gblur=sigma=14,eq=brightness=-0.06:contrast=1.05[glow];"
+              # bloom считаем на половинном разрешении: визуально то же, вдвое дешевле
+              "[b]scale=540:960:flags=bilinear,gblur=sigma=6,"
+              "scale=1080:1920:flags=bilinear,"
+              "eq=brightness=-0.06:contrast=1.05[glow];"
               "[a][glow]blend=all_mode=screen:all_opacity=0.30[bl];"
               "[bl]colorbalance=rs=0.03:gs=0.0:bs=-0.03,"
               "eq=contrast=1.05:saturation=1.06,"
-              "rgbashift=rh=-1:bh=1,"
-              "unsharp=5:5:0.45,"
               "vignette=angle=PI/5,"
-              "noise=alls=4:allf=t+u,"
               "scale=1080:1920:flags=lanczos:in_range=full:out_range=tv,format=yuv420p[v]")
     else:
         vf = (kb + "scale=1080:1920:flags=lanczos:in_range=full:out_range=tv,"
