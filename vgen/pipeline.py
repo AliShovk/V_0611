@@ -42,6 +42,15 @@ def run(project_path, out_root="out", skip_voice=False):
     vinfo = voice_mod.build(project, out)
     print(f"  {vinfo['total']:.2f} с, {len(vinfo['marks'])} слов")
 
+    if project.get("renderer") == "studio":
+        from vgen.studio import engine
+        print("[6/8] storyboard: сцены studio берутся из project.json")
+        print("[7/8] animation + encode (studio)")
+        final = engine.build(project, vinfo, out, base=os.path.dirname(os.path.abspath(project_path)))
+        print("[8/8] готово")
+        return {"ok": True, "out": out, "final": final, "duration": vinfo["total"],
+                "scenes": len(project["scenes"]), "artifacts": sorted(os.listdir(out))}
+
     print("[6/8] storyboard")
     board, board_path = sb_mod.build(project, vinfo, out)
 

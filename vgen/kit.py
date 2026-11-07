@@ -16,6 +16,7 @@ from vgen.palette import font_path
 W, H = 1080, 1920
 
 _TF = {}
+_IMG = {}
 
 
 def rgba(c, a=None):
@@ -152,6 +153,34 @@ class Canvas:
             self.c.drawString(s, x, y, f, sp)
             shadow = None
         self.c.drawString(s, x, y, f, _paint(fill=fill, shadow=shadow, alpha=alpha))
+
+    # --- клип, изображения, карточки -------------------------------------
+    def clip(self, x0, y0, x1, y1):
+        self.c.clipRect(skia.Rect(x0, y0, x1, y1))
+
+    def image_cover(self, path, zoom=1.0, pan=(0.0, 0.0), alpha=1.0):
+        """Картинка «cover» на весь холст с зумом/панорамой (pan в долях −1..1)."""
+        img = _IMG.get(path)
+        if img is None:
+            img = skia.Image.MakeFromEncoded(skia.Data.MakeFromFileName(path))
+            _IMG[path] = img
+        iw, ih = img.width(), img.height()
+        sc = max(self.w / iw, self.h / ih) * zoom
+        dw, dh = iw * sc, ih * sc
+        x = (self.w - dw) / 2 + pan[0] * (dw - self.w) / 2
+        y = (self.h - dh) / 2 + pan[1] * (dh - self.h) / 2
+        p = skia.Paint(AntiAlias=True)
+        p.setAlphaf(alpha)
+        self.c.drawImageRect(img, skia.Rect(x, y, x + dw, y + dh), skia.SamplingOptions(skia.FilterMode.kLinear), p)
+
+    def card(self, x0, y0, x1, y1, accent="#7fe4ff", r=26, alpha=0.82, glow=False, a=1.0):
+        """Стеклянная карточка: тёмная подложка, световая кромка сверху, тень."""
+        self.rrect(x0, y0, x1, y1, r, fill=lin(0, y0, 0, y1, [(0, "#16233f"), (1, "#0a1224")]),
+                   shadow=(0, 10, 16, "#000a"), alpha=alpha * a)
+        self.rrect(x0, y0, x1, y1, r, stroke=accent, width=2.5, alpha=0.75 * a)
+        self.line(x0 + r, y0 + 2, x1 - r, y0 + 2, "#ffffff", 2, alpha=0.28 * a)
+        if glow:
+            self.rrect(x0, y0, x1, y1, r, stroke=accent, width=6, blur=10, alpha=0.5 * a)
 
     # --- вывод -----------------------------------------------------------
     def to_pil(self):
