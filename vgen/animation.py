@@ -1,23 +1,26 @@
-"""Stage 6 — анимация кадров и сборка mp4."""
-import json
+"""Stage 6 — анимация кадров и сборка mp4.
+
+Камера: кадр рисуется крупнее (VGEN_SS), затем вырезается окно по траектории
+из vgen/camera.py — наезды, панорамы, склейки внутри сцены, ручная тряска.
+Кадры рендерятся параллельно, сборка — одним проходом ffmpeg.
+"""
 import os
 import subprocess
+from concurrent.futures import ProcessPoolExecutor
 
 from PIL import Image
 
-from vgen import sfx
+from vgen import camera, sfx
 from vgen.voice import FFMPEG
-from vgen import renderers
+
+FPS = 30
+JPEG = os.environ.get("FRAME_JPEG") == "1"
+OUT_W, OUT_H = 1080, 1920
 
 
 def module(name):
     import importlib
     return importlib.import_module(f"vgen.renderers.{name}")
-
-FPS = 30
-JPEG = os.environ.get("FRAME_JPEG") == "1"
-W, H = 720, 1280
-SS = 2
 
 
 def word_time(marks, needle, default):
@@ -35,6 +38,28 @@ def ease(k):
     return k * k * (3 - 2 * k)
 
 
+def _render_one(job):
+    (i, t, name, prev, blend_k, ctx, frames_dir, renderer, sc_idx, sc_t, sc_dur) = job
+    mod = module(renderer)
+    if prev:
+        img_a = mod.render(prev, t, ctx).convert("RGBA")
+        img_b = mod.render(name, t, ctx).convert("RGBA")
+        img = Image.blend(img_a, img_b, blend_k)
+    else:
+        img = mod.render(name, t, ctx).convert("RGBA")
+
+    # кинокамера: вырезаем окно из крупного кадра и приводим к 1080x1920
+    box = camera.crop_box(camera.framing(sc_idx, sc_t, sc_dur), img.width, img.height)
+    img = img.crop(box).resize((OUT_W, OUT_H), Image.LANCZOS)
+
+    path = os.path.join(frames_dir, ("f%05d.jpg" if JPEG else "f%05d.png") % i)
+    if JPEG:
+        img.convert("RGB").save(path, quality=95)
+    else:
+        img.convert("RGB").save(path)
+    return i
+
+
 def build(project, voice, storyboard, out_dir, renderer="lock"):
     total = voice["total"]
     marks = voice["marks"]
@@ -45,9 +70,8 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     t_gates = word_time(marks, anchors.get("gates_close", ""), total * 0.30)
     t_panama = word_time(marks, anchors.get("panama", ""), total * 0.78)
     t_end = word_time(marks, anchors.get("end", ""), total * 0.95)
-    mod = module(project.get("renderer", "lock"))
+    rname = project.get("renderer", "lock")
 
-    # субтитры с подсветкой ключевых слов (стиль night-vector)
     hl_keys = [k.lower() for k in project.get("keywords", [])]
     hl_cues = []
     if project.get("caption_style") == "highlight":
@@ -67,13 +91,13 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
     frames_dir = os.path.join(out_dir, "assets", "frames")
     os.makedirs(frames_dir, exist_ok=True)
     for f in os.listdir(frames_dir):
-        if f.endswith(".png") or f.endswith(".jpg"):
+        if f.endswith((".png", ".jpg")):
             os.remove(os.path.join(frames_dir, f))
 
     n = int(total * FPS)
+    jobs = []
     for i in range(n):
         t = i / FPS
-
         level = 0.06 + 0.94 * ease((t - t_pump) / max(0.6, t_eight - t_pump))
         gate_k = ease((t - t_gates) / 1.1)
         steps_done = 0
@@ -93,11 +117,9 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
                     cur = txt
             if cur:
                 ctx["caption_text"] = cur
-                ctx["caption_hl"] = tuple(
-                    w for w in cur.split()
-                    if any(k in w.lower() for k in hl_keys))
+                ctx["caption_hl"] = tuple(w for w in cur.split()
+                                          if any(k in w.lower() for k in hl_keys))
 
-        # сцена по времени
         idx = 0
         for j, sc in enumerate(scenes):
             if t >= sc["t0"]:
@@ -106,30 +128,29 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
         ctx["scene_t"] = t - scenes[idx]["t0"]
         ctx["scene_dur"] = max(0.1, scenes[idx]["t1"] - scenes[idx]["t0"])
 
-        # кроссфейд 0.35 с на стыке
+        prev, blend_k = None, 0.0
         if idx > 0 and t - scenes[idx]["t0"] < 0.35:
             prev = scenes[idx - 1]["id"]
-            a = ease((t - scenes[idx]["t0"]) / 0.35)
-            img_a = mod.render(prev, t, ctx).convert("RGBA")
-            img_b = mod.render(name, t, ctx).convert("RGBA")
-            img = Image.blend(img_a, img_b, a)
-        else:
-            img = mod.render(name, t, ctx).convert("RGBA")
+            blend_k = ease((t - scenes[idx]["t0"]) / 0.35)
 
-        if JPEG:
-            img.convert("RGB").save(os.path.join(frames_dir, f"f{i:05d}.jpg"), quality=95)
-        else:
-            img.convert("RGB").save(os.path.join(frames_dir, f"f{i:05d}.png"))
-        if i % 200 == 0:
-            print("frame", i, "/", n)
+        jobs.append((i, t, name, prev, blend_k, ctx, frames_dir, rname, idx,
+                     ctx["scene_t"], ctx["scene_dur"]))
 
-    silent = os.path.join(out_dir, "assets", "video_silent.mp4")
-    subprocess.run([FFMPEG, "-y", "-v", "error", "-framerate", str(FPS),
-                    "-i", os.path.join(frames_dir, "f%05d.jpg" if JPEG else "f%05d.png"),
-                    "-c:v", "libx264", "-preset", "medium", "-crf", "19",
-                    "-pix_fmt", "yuv420p", "-movflags", "+faststart", silent], check=True)
+    workers = int(os.environ.get("VGEN_WORKERS") or max(1, min(8, (os.cpu_count() or 2) - 1)))
+    done = 0
+    if workers == 1:
+        for job in jobs:
+            _render_one(job)
+            done += 1
+            if done % 200 == 0:
+                print("frame", done, "/", n, flush=True)
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as ex:
+            for _ in ex.map(_render_one, jobs, chunksize=8):
+                done += 1
+                if done % 200 == 0:
+                    print("frame", done, "/", n, "workers", workers, flush=True)
 
-    # SFX
     if anchors:
         events = [(0.02, "boom", 0.5), (t_gates, "crack", 0.35), (t_pump, "hiss", 0.45),
                   (t_eight, "pop", 0.35), (t_panama, "chime", 0.45), (t_end - 0.4, "whoosh", 0.3)]
@@ -138,34 +159,29 @@ def build(project, voice, storyboard, out_dir, renderer="lock"):
                   (total * 0.7, "chime", 0.4), (total - 0.6, "whoosh", 0.3)]
     fx = sfx.build_track(total, events, os.path.join(out_dir, "assets", "sfx.wav"))
 
-    mixed = os.path.join(out_dir, "assets", "video_mixed.mp4")
-    sfx.mix(silent, voice["wav"], fx, mixed, video_sfx_gain=0.75)
-
     final = os.path.join(out_dir, "final.mp4")
-    vf = "scale=1080:1920:flags=lanczos"
+    pattern = os.path.join(frames_dir, "f%05d.jpg" if JPEG else "f%05d.png")
+    preset = project.get("preset") or "medium"
+    crf = str(project.get("crf") or 18)
+
     if project.get("post"):
-        # bloom + тёплый грейд + хроматика + резкость + виньетка + зерно — одним проходом
-        kb = ("zoompan=z='min(zoom+0.0006,1.08)':x='iw/2-(iw/zoom/2)':"
-              "y='ih/2-(ih/zoom/2)':d=1:s=1080x1920:fps=30,") if project.get("kenburns") else ""
-        vf = (kb + "split=2[a][b];"
-              "[b]gblur=sigma=14,eq=brightness=-0.06:contrast=1.05[glow];"
+        vf = ("split=2[a][b];"
+              "[b]scale=540:960:flags=bilinear,gblur=sigma=6,scale=1080:1920:flags=bilinear,"
+              "eq=brightness=-0.06:contrast=1.05[glow];"
               "[a][glow]blend=all_mode=screen:all_opacity=0.30[bl];"
-              "[bl]colorbalance=rs=0.03:gs=0.0:bs=-0.03,"
-              "eq=contrast=1.05:saturation=1.06,"
-              "rgbashift=rh=-1:bh=1,"
-              "unsharp=5:5:0.45,"
-              "vignette=angle=PI/5,"
-              "noise=alls=4:allf=t+u,"
-              "scale=1080:1920:flags=lanczos:in_range=full:out_range=tv,format=yuv420p[v]")
-        subprocess.run([FFMPEG, "-y", "-v", "error", "-i", mixed,
-                        "-filter_complex", vf, "-map", "[v]", "-map", "0:a",
-                        "-c:v", "libx264", "-preset", "medium", "-crf", "19",
-                        "-pix_fmt", "yuv420p", "-color_range", "tv", "-c:a", "aac", "-b:a", "160k",
-                        "-movflags", "+faststart", final], check=True)
-        return {"final": final, "frames": n, "total": total}
-    subprocess.run([FFMPEG, "-y", "-v", "error", "-i", mixed,
-                    "-vf", vf,
-                    "-c:v", "libx264", "-preset", "medium", "-crf", "19",
-                    "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k",
+              "[bl]colorbalance=rs=0.03:gs=0.0:bs=-0.03,eq=contrast=1.05:saturation=1.06,"
+              "vignette=angle=PI/5,format=yuv420p[v]")
+    else:
+        vf = "format=yuv420p[v]"
+
+    af = "[2:a]volume=0.75[fx];[1:a][fx]amix=inputs=2:duration=first:dropout_transition=0[a]"
+    subprocess.run([FFMPEG, "-y", "-v", "error",
+                    "-framerate", str(FPS), "-i", pattern,
+                    "-i", voice["wav"], "-i", fx,
+                    "-filter_complex", f"[0:v]{vf};{af}",
+                    "-map", "[v]", "-map", "[a]",
+                    "-c:v", "libx264", "-preset", preset, "-crf", crf,
+                    "-pix_fmt", "yuv420p", "-color_range", "tv",
+                    "-c:a", "aac", "-b:a", "160k",
                     "-movflags", "+faststart", final], check=True)
-    return final
+    return {"final": final, "frames": n, "total": total, "workers": workers}

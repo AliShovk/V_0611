@@ -80,10 +80,16 @@ def typeface():
 
 
 class Canvas:
+    """Холст в координатах 1080x1920; при VGEN_SS>1 рисует крупнее под кроп камеры."""
+
     def __init__(self, w=W, h=H):
+        import os
+        self.ss = float(os.environ.get("VGEN_SS", "1"))
         self.w, self.h = w, h
-        self.surface = skia.Surface(w, h)
+        self.surface = skia.Surface(int(w * self.ss), int(h * self.ss))
         self.c = self.surface.getCanvas()
+        if self.ss != 1.0:
+            self.c.scale(self.ss, self.ss)
 
     # --- состояние -------------------------------------------------------
     def save(self):
