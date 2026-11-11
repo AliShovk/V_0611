@@ -5,7 +5,7 @@ import os
 import shutil
 import sys
 
-from vgen import stages, voice as voice_mod, storyboard as sb_mod, animation
+from vgen import stages, voice as voice_mod, storyboard as sb_mod, animation, outro as outro_mod
 
 
 def load(project_path):
@@ -48,8 +48,15 @@ def run(project_path, out_root="out", skip_voice=False):
     print("[7/8] animation + encode")
     final = animation.build(project, vinfo, board, out)
 
+    if project.get("outro", True):
+        print("[7b/8] концовка GPTunnel")
+        final = outro_mod.attach(final, project.get("outro_file"), out)
+
     print("[8/8] готово")
-    return {"ok": True, "out": out, "final": final, "duration": vinfo["total"],
+    total = vinfo["total"]
+    if final.endswith("final_outro.mp4"):
+        total += outro_mod.probe_duration(project.get("outro_file") or outro_mod.DEFAULT)
+    return {"ok": True, "out": out, "final": final, "duration": round(total, 2),
             "scenes": len(board["scenes"]), "artifacts": sorted(os.listdir(out))}
 
 
