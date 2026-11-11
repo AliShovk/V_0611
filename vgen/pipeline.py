@@ -46,7 +46,8 @@ def run(project_path, out_root="out", skip_voice=False):
     board, board_path = sb_mod.build(project, vinfo, out)
 
     print("[7/8] animation + encode")
-    final = animation.build(project, vinfo, board, out)
+    built = animation.build(project, vinfo, board, out)
+    final = built["final"] if isinstance(built, dict) else built
 
     if project.get("outro", True):
         print("[7b/8] концовка GPTunnel")

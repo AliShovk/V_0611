@@ -60,8 +60,8 @@ def numbers_in(text):
     active = False
     for w in words:
         if not w[0].isalpha():
-            # дефис и запятая разрывают числительное: «шести-восьми» — это 6 и 8
-            if ("-" in w or "–" in w or "," in w) and active:
+            # дефис, тире и запятая разрывают числительное: «40 — 70» — это два числа
+            if ("-" in w or "–" in w or "—" in w or "−" in w or "," in w) and active:
                 found.add(str(cur))
                 cur, active = 0, False
             continue
